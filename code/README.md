@@ -1,7 +1,5 @@
+# Code section
+
 To run the main part of this project open sirSimulation.py
 
-Libraries used in this project:
-	scipy
-	matplotlib
-	EoN
-	networkx
+Python libraries used in this project: scipy, matplotlib, EoN, networkx
