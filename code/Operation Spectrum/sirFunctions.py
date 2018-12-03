@@ -22,7 +22,7 @@ def time_evolution(G, beta, delta, initial_size, start_time, end_time, iteration
             initial_nodes = random.sample(G.nodes, initial_size)
         else:
             initial_nodes = initial_nodes
-        t, S, I, R = EoN.fast_SIR(G, beta, delta, initial_infecteds=initial_nodes)
+        t, S, I, R = EoN.Gillespie_SIR(G, beta, delta, initial_infecteds=initial_nodes)
         _, newI, newR = EoN.subsample(report_times, t, S, I, R)
         Isum += newI
         Rsum += newR
@@ -95,7 +95,7 @@ def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_n
     eig = obtainMaxEig(G)
     beta_range = scipy.logspace(-2, 2, number_of_steps)
     final_number_of_cured_nodes = scipy.zeros_like(beta_range)
-    for j in range(0, len(initial_sizes)):
+    for j in range(len(initial_sizes)):
         if parallel:
             if not initial_nodes:
                 final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
@@ -104,12 +104,11 @@ def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_n
             else:
                 final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
                     delayed(time_evolution)(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "",
-                                            opt='number_of_cured_nodes') for i, beta in enumerate(beta_range))
+                                            opt='number_of_cured_nodes', initial_nodes=initial_nodes[j]) for i, beta in enumerate(beta_range))
         else:
             for i, beta in enumerate(beta_range):
                 if not initial_nodes:
-                    final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes',
-                                                                    initial_nodes=initial_nodes[j])
+                    final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes')
                 else:
                    final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes',
                                                                     initial_nodes=initial_nodes[j])
