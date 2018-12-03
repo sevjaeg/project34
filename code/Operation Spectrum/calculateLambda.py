@@ -13,7 +13,7 @@ def maxEig(A):
     return abs(eigenVals[0])
 
 
-def obtainMaxEig(G, out, digits):
+def obtainMaxEig(G, out=False, digits=0):
     """Returns the largest eigenvalue (absolute value) of the adjacency matrix belonging to the graph G
        if out is True, the result of maxEig is printed with precision digits"""
     A = ntx.adjacency_matrix(G)
@@ -27,19 +27,19 @@ def obtainMaxEig(G, out, digits):
     return ret
 
 
-def removeCriticalNode(G):  # poor performance due to some workarounds
+def removeCriticalNode(G):  # poor performance, better use functions from centrality.py
     ret = copy.deepcopy(G)
     """Finds the node, which contributes to the largest eigenvalue the most, an deletes is from G. Therefore,
         the returned graph has the lowest possible largest eigenvalue after removing one node."""
     nodeToRemove = 1
-    minEig = obtainMaxEig(G, False, 0)
+    minEig = obtainMaxEig(G)
     # WARNING: The index starts at 0, because in edgelists the first node tends to have the index 1. Nevertheless, some graphs might
     # also have a node 0, which is NOT CONSIDERED in this function!
     # Additionally, missing nodes will cause problems with this function
     for i in range(1, len(G.nodes)):
         newG = copy.deepcopy(G)
         newG.remove_node(i)
-        currentEig = obtainMaxEig(newG, False, 0)
+        currentEig = obtainMaxEig(newG)
         if(currentEig == 0):
             print("Eigenvalue computation for node " + str(i) + " not successful!", file=sys.stderr)
         if(currentEig < minEig):
