@@ -1,3 +1,5 @@
+"""Provides functions to plot graphs"""
+
 import networkx as ntx
 import matplotlib.pyplot as plot
 
@@ -7,8 +9,7 @@ def plotFromMatrix(A):
     plotFromGraph(graph)
 
 
-def plotFromGraph(G): # TODO: dok (counter erklären)
-    # TODO schönere Plots
+def plotFromGraph(G):  # TODO: format graphs
     plot.figure(plotFromGraph.counter)
     ntx.draw_networkx(G)
     plotFromGraph.counter += 1

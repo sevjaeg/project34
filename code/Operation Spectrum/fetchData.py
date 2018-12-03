@@ -1,3 +1,5 @@
+"""Provides functions to read in graphs from files"""
+
 import numpy as np
 import scipy as sp
 import networkx as ntx
@@ -22,9 +24,7 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
         line = line[:len(line) - 1]
     if line[len(line) - 1] == ' ':
         line = line[:len(line) - 1]
-
     lineElements = line.split(columnSeparator)
-
     # Float array to deal with weighted graphs
     try:
         lineElements = [float(i) for i in lineElements]
@@ -32,7 +32,6 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
         print("Cannot cast matrix elements to floats!", file=sys.stderr)
         return
     A = np.array(lineElements, dtype=float)
-
     while True:
         line = sourceFile.readline()
         if line == "" or line == "\n":
@@ -45,9 +44,7 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
             line = line[:len(line) - 1]
         if line[len(line) - 1] == ' ':
             line = line[:len(line) - 1]
-
         lineElements = line.split(columnSeparator)
-
         try:
             lineElements = [float(i) for i in lineElements]
         except ValueError:
@@ -55,7 +52,6 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
             return
         # Adds row to existing matrix, assuming same number of elements
         A = np.vstack([A, lineElements])
-
     sourceFile.close()
     # Converts matrix into networkX graph object
     return ntx.from_numpy_array(A)
@@ -101,7 +97,7 @@ def normalizeMatrix(A, threshold):
     return A
 
 
-def normalizeSparseMatrix(A, threshold): # TODO: testen
+def normalizeSparseMatrix(A, threshold):
     """Sets all values of a matrix with an absolute value greater than the threshold to 1 and all others to 0
         works with scipy sparse matrices"""
     positions = A.nonzero()

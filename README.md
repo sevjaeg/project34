@@ -1,4 +1,4 @@
-# MATLAB Fall 2018 – Research Plan
+# Modelling Social Systems Fall 2018 – Research Plan
 
 > * Group Name: Operation Spectrum
 > * Group participants names: Hahn Thomas, Jäger Severin, Schubert Yannick
