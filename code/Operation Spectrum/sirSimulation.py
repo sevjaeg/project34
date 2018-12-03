@@ -42,5 +42,5 @@ for i in range(0, len(initial_sizes)):
     initial_nodes_array.append(crucialNodesEigenvector(E, number_of_nodes=initial_sizes[i]))
 
 #fig_5_left(E, len(initial_nodes)+1, 20*iterations, initial_nodes=initial_nodes)
-#fig_5_right(E, len(initial_nodes)+1, iterations, number_of_steps, initial_nodes=initial_nodes, parallel=True)
-fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, initial_nodes=initial_nodes_array, parallel=True)  # different sizes of initial infection
+fig_5_right(E, len(initial_nodes)+1, iterations, number_of_steps, initial_nodes=initial_nodes, parallel=True)
+#fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, initial_nodes=initial_nodes_array, parallel=True)  # different sizes of initial infection
