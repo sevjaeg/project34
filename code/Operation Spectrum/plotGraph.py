@@ -13,5 +13,3 @@ def plotFromGraph(G):  # TODO: format graphs
     plt.figure(plotFromGraph.counter)
     ntx.draw_networkx(G)
     plotFromGraph.counter += 1
-
-

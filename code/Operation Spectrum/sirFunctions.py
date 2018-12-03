@@ -3,11 +3,10 @@
 import EoN  # library providing tools to run fast SIR simulations using the Gillespie algorithm
 import random
 import scipy
+import multiprocessing as mp
 import matplotlib.pyplot as plt
 from calculateLambda import obtainMaxEig
-
 from joblib import Parallel, delayed
-import multiprocessing as mp
 
 
 def s_SIR(eig, beta, delta, digits):  # Effective virus strength

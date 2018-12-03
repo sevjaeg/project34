@@ -3,7 +3,7 @@
 from sirFunctions import fig_5_left, fig_5_right, fig_5_right_initial
 from fetchData import importEdgeListFile
 from calculateLambda import obtainMaxEig
-from centrality import crucialNodesEigenvector, crucialNodesDegree
+from centrality import crucialNodesEigenvector
 
 
 # Data source (for details see data/readme.md) #########################################################################

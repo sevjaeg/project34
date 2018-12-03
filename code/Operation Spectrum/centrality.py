@@ -3,6 +3,7 @@
 import networkx as ntx
 import operator
 
+
 def crucialNodesDegree(G, number_of_nodes = 1):  # very simple degree depending on the number of edges connected to a node
     d = ntx.degree_centrality(G)
     ret = []
@@ -12,6 +13,7 @@ def crucialNodesDegree(G, number_of_nodes = 1):  # very simple degree depending 
             ret.append(index)
             del d[index]
     return ret
+
 
 def crucialNodesBetweenness(G, number_of_nodes = 1):  # expensive computation, degree depending on the paths going through the node
     d = ntx.betweenness_centrality(G)
