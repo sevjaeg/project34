@@ -83,7 +83,7 @@ def fig_5_left(G, initial_size, iterations):
     plt.xlabel("Time ticks")
     plt.ylabel("Fraction of Infected People")
     plt.grid()
-    plt.savefig('build/fig_5_left.png')
+    plt.savefig('images/fig_5_left.png')
     plt.show()
 
 
@@ -101,7 +101,7 @@ def fig_5_right(G, initial_size, iterations):
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
     plt.ylabel("Final Number of Cured Nodes")
     plt.grid()
-    plt.savefig('build/fig_5_right.png')
+    plt.savefig('images/fig_5_right.png')
     plt.show()
 
 def fig_5_right_initial(G, initial_sizes, iterations):
@@ -120,7 +120,7 @@ def fig_5_right_initial(G, initial_sizes, iterations):
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
     plt.ylabel("Final Number of Cured Nodes")
     plt.grid()
-    # plt.savefig('./images/fig_5_right.png')
+    plt.savefig('./images/fig_5_right.png')
     plt.show()
 
 if __name__ == "__main__":
