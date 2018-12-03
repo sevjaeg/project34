@@ -1,19 +1,37 @@
-"""TODO: dok"""
+"""Provides functions to determine the critical nodes of a graph using different algorithms"""
 
 import networkx as ntx
-import numpy as np
 import operator
 
-def crucialNodeDegree(G):  # very simple degree depending on the number of edges connected to a node
+
+def crucialNodesDegree(G, number_of_nodes = 1):  # very simple degree depending on the number of edges connected to a node
     d = ntx.degree_centrality(G)
-    return max(d.items(), key=operator.itemgetter(1))[0]
+    ret = []
+    for i in range(0, number_of_nodes-1):
+        if d:
+            index = max(d.items(), key=operator.itemgetter(1))[0]
+            ret.append(index)
+            del d[index]
+    return ret
 
 
-def crucialNodeBetweenness(G):  # expensive computation, degree depending on the paths going through the node
+def crucialNodesBetweenness(G, number_of_nodes = 1):  # expensive computation, degree depending on the paths going through the node
     d = ntx.betweenness_centrality(G)
-    return max(d.items(), key=operator.itemgetter(1))[0]
+    ret = []
+    for i in range(0, number_of_nodes - 1):
+        if d:
+            index = max(d.items(), key=operator.itemgetter(1))[0]
+            ret.append(index)
+            del d[index]
+    return ret
 
 
-def crucialNodeEigenvector(G):
+def crucialNodesEigenvector(G, number_of_nodes = 1):  # modest performance, degree based on adjacency matrix eigenvalues
     d = ntx.eigenvector_centrality(G)
-    return max(d.items(), key=operator.itemgetter(1))[0]
+    ret = []
+    for i in range(0, number_of_nodes - 1):
+        if d:
+            index = max(d.items(), key=operator.itemgetter(1))[0]
+            ret.append(index)
+            del d[index]
+    return ret

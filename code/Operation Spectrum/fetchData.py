@@ -1,7 +1,6 @@
 """Provides functions to read in graphs from files"""
 
 import numpy as np
-import scipy as sp
 import networkx as ntx
 import sys
 

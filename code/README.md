@@ -1,3 +1,5 @@
-# Code Folder 
+# Code section
 
-Your code goes here. You could also replace the content of this file with something more meaningful
+To run the main part of this project open sirSimulation.py
+
+Python libraries used in this project: scipy, matplotlib, EoN, networkx
