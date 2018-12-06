@@ -5,11 +5,14 @@ import networkx as ntx
 import sys
 
 
-def importMatrixFile(path, lineSeparator, columnSeparator):
-    """reads a matrix from a file into a nbarray (NO sparse matrix!) and returns the according graph
-       file may not be empty (as the first line has to be read)
-       each row has to contain the same number of elements (is not checked)
-       lines in the file are separated by lineSeparator, columns by columnSeparator"""
+def importMatrixFile(path, rowSeparator, columnSeparator):
+    """Reads an adjacency matrix file and returns the respective graph
+
+    Arguments:
+        path -- path of a non-empty file containing an adjacency matrix
+        rowSeparator -- character seperating two rows of the matrix in the file
+        columnSeparator -- character seperating two columns of the matrix in the file
+    """
 
     sourceFile = open(path, "r")
     # first line to create a matrix
@@ -19,7 +22,7 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
         line = line[:len(line) - 1]
     if line[len(line) - 1] == ' ':
         line = line[:len(line) - 1]
-    if line[len(line) - 1] == lineSeparator:
+    if line[len(line) - 1] == rowSeparator:
         line = line[:len(line) - 1]
     if line[len(line) - 1] == ' ':
         line = line[:len(line) - 1]
@@ -39,7 +42,7 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
             line = line[:len(line) -1]
         if line[len(line) - 1] == ' ':
             line = line[:len(line) - 1]
-        if line[len(line) - 1] == lineSeparator:
+        if line[len(line) - 1] == rowSeparator:
             line = line[:len(line) - 1]
         if line[len(line) - 1] == ' ':
             line = line[:len(line) - 1]
@@ -57,8 +60,13 @@ def importMatrixFile(path, lineSeparator, columnSeparator):
 
 
 def importEdgeListFile(path, elementSeparator):
-    """reads a graph from a file containing all edges
-       inside a line the two nodes connected by the edge a separated by the elementSeparator"""
+    """Reads an edge list file and returns the respective graph
+
+    Arguments:
+        path -- path of a non-empty file containing an edge list
+        elementSeparator -- character seperating the two connected nodes in the edgelist (lines separated by '\n' by default)
+    """
+
     sourceFile = open(path, "r")
     edgelist = []
     while True:
@@ -69,41 +77,8 @@ def importEdgeListFile(path, elementSeparator):
         try:
             edgelist.append(tuple([int(i) for i in line.split(elementSeparator)]))
         except ValueError:
-            print("Cannot cast matrix elements to floats!", file=sys.stderr)
+            print("Cannot cast matrix elements to integers!", file=sys.stderr)
             return
     sourceFile.close()
     #Converts edgelist to networkx graph object
     return ntx.from_edgelist(edgelist)
-
-
-def normalizeGraph(G, threshold):
-    """Sets all edge weights of a graph with an absolute value greater than the threshold to 1 and all others to 0"""
-    A = ntx.adjacency_matrix(G)
-    A = normalizeSparseMatrix(A, threshold)
-    return ntx.from_scipy_sparse_matrix(A)
-
-
-def normalizeMatrix(A, threshold):
-    """Sets all values of a matrix with an absolute value greater than the threshold to 1 and all others to 0
-    works with ordinary numpy matrices"""
-    num = len(A)
-    for i in range(0, num):
-        for j in range(0, num):
-            if np.abs(A[i, j]) > threshold:
-                A[i, j] = 1
-            else:
-                A[i, j] = 0
-    return A
-
-
-def normalizeSparseMatrix(A, threshold):
-    """Sets all values of a matrix with an absolute value greater than the threshold to 1 and all others to 0
-        works with scipy sparse matrices"""
-    positions = A.nonzero()
-    for i in range(0, len(positions[0])):
-        if A[positions[0][i], positions[1][i]] > threshold:
-            A[positions[0][i], positions[1][i]] = 1
-        else:
-            A[positions[0][i], positions[1][i]] = 0
-    return A
-

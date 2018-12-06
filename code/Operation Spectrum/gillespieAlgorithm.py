@@ -4,6 +4,7 @@ https://epidemicsonnetworks.readthedocs.io/en/latest/_modules/EoN/simulation.htm
 and
 https://epidemicsonnetworks.readthedocs.io/en/latest/functions/EoN.subsample.html"""
 
+
 import random
 import scipy
 from collections import defaultdict  # container data type
