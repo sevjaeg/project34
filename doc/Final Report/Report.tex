@@ -129,7 +129,7 @@ We will be making two assumptions, which not only simplify calculations, but are
 $(i)$ The infection can only be spread from node $i$ to node $j$ if $A_{i,j}=1$. In essence, this means that the infection can only be spread via neighbors. \\
 $(ii)$ When an element from a susceptible state becomes infected, it must always transition into the "first" susceptible state $I_1$.  This is trivially fulfilled for models with one infectious state.  Models with two susceptible states could then describe infections that first need an incubation period.  In this case $I_1$ would be the state "E" that was mentioned before.  \\
 \underline{Proof Sketch:}\\
-We start by defining a vector $\bold{P}_t$ that will describe the system at time $t$.  In a model where $m$ is the total number of states and $n$ is the total number of nodes, this vector will have $m \times n$ entries, i.e. $\bold{P}_t \in \mathbb{R}^{m \cdot n} $. More specifically, we can write $\bold{P}_t$ in the following way: \\
+We start by defining a vector $\textbf{P}_t$ that will describe the system at time $t$.  In a model where $m$ is the total number of states and $n$ is the total number of nodes, this vector will have $m \times n$ entries, i.e. $\bold{P}_t \in \mathbb{R}^{m \cdot n} $. More specifically, we can write $\bold{P}_t$ in the following way: \\
 \begin{eqnarray}
  \bold{P}_t = (P_{s_1,1,t},P_{s_1,2,t},...,P_{s_1,n,t},P_{s_2,1,t},...,P_{s_m,n,t})^T ,
  \end{eqnarray}
@@ -143,6 +143,7 @@ We start by defining a vector $\bold{P}_t$ that will describe the system at time
   \end{eqnarray}
   At these points, one can calculate the stability, i.e. will we return to this fixed point under small perturbations or not, by analyzing the spectrum of the Jacobi matrix at these locations.  We will in essence calculate the stability of systems, where no nodes are infected.  As we will see, the constraints for the spectrum of the Jacobian will allow us to decouple the topology from the VPM and deliver the desired result.
 \subsection{Proof}
+\label{proof}
 To make the proof more readable, we shall introduce additional notation \\
 \subsubsection{Notation}
 $(i)$ $m$ denotes the total number of states in the VPM. \\
@@ -215,18 +216,42 @@ p_S^\star = \sum_{y=1}^w p_{S_{y}}^\star .
 \end{eqnarray}
 This can be interpreted as the probability of any given node $i$ being in the Susceptible class.
  \subsubsection{Deriving the Jacobian}
- Here, we rely on equations $(9)$ to $(11)$ to express $g$ and then take all of the partial derivatives.  As all of our $n$ nodes can be elements of $m$ possible states, we expect our Jacobian matrix to be of the form $(m \times n) \times (m \times n)$.  By plugging in the values, we get the following results:
- \begin{eqnarray}
- Plug \ in \ Matrix
- \end{eqnarray}
+ Here, we rely on equations $(9)$ to $(11)$ to express $g$ and then take all of the partial derivatives.  As all of our $n$ nodes can be elements of $m$ possible states, we expect our Jacobian matrix to be of the form $(m \times n) \times (m \times n)$.  By plugging in the values, we get the following results:\\
+\begin{tabular}{c|c|c|c|c|c}
+     & $S_y$ & K & $\cdots$ & E & I   \\
+     \hline
+     $S_y$ & $(1-\sum\limits_{K\neq S_y, E}\alpha_{S_y,K})\mathbbm{1}$ & $\alpha_{KS_y}\mathbbm{1}$ & $\cdots$ & $\alpha_{ES_y}\mathbbm{1}-p_{S_y}^* \beta_1 \textbf{A}$ & $\alpha_{IS_y}-p_S^*\beta_2\textbf{A}$\\
+     \hline
+     \vdots & & $\ddots$ & & & \\
+     \hline
+     U & $\alpha_{SyU}\mathbbm{1}$ & $\alpha_{KU}\mathbbm{1}$ & $\cdots$ & $\alpha_{EU}\mathbbm{1}$ & $\alpha_{IU}\mathbbm{1}$\\
+     \hline
+     \vdots & & & $\ddots$ & & \\
+     \hline
+     E & $\alpha_{S_yE}\mathbbm{1}$ & $\alpha_{KE}\mathbbm{1}$ & $\cdots$ & $\alpha_{EE}\mathbbm{1}+p_S^*\beta_1\mathbbm{A}$ & $\alpha_{IE}\mathbbm{1}+p_S^*\beta_2\mathbbm{A}$\\
+     \hline
+     I & $\alpha_{S_yI}\mathbbm{1}$ & $\alpha_{KI}\mathbbm{1}$ & $\cdots$ & $\alpha_{EI}\mathbbm{1}$ & $\alpha_{II}\mathbbm{1}$
+\end{tabular}\\
  Here, the state $K$ denotes all states not equal to $E$ or $I$, whereas $U \neq \left\lbrace S_1,...,S_w,E,I \right\rbrace$.  We shall now recall one of our previous assumptions, namely that there can be no endogenous transitions into the Infected class.  Mathematically speaking this means
  \begin{eqnarray}
  \forall K \neq E,I : \alpha_{KE} = \alpha_{KI} = 0
  \end{eqnarray}
- This, of course simplifies our Jacobian, which is reduced to 
- \begin{eqnarray}
- Plug \ in \ Matrix
- \end{eqnarray}
+ This, of course simplifies our Jacobian, which is reduced to \\
+\begin{tabular}{c|c|c|c|c|c}
+     & $S_y$ & K & $\cdots$ & E & I   \\
+     \hline
+     $S_y$ & $(1-\sum\limits_{K\neq S_y, E}\alpha_{S_y,K})\mathbbm{1}$ & $\alpha_{KS_y}\mathbbm{1}$ & $\cdots$ & $\alpha_{ES_y}\mathbbm{1}-p_{S_y}^* \beta_1 \textbf{A}$ & $\alpha_{IS_y}-p_S^*\beta_2\textbf{A}$\\
+     \hline
+     \vdots & & $\ddots$ & & & \\
+     \hline
+     U & $\alpha_{SyU}\mathbbm{1}$ & $\alpha_{KU}\mathbbm{1}$ & $\cdots$ & $\alpha_{EU}\mathbbm{1}$ & $\alpha_{IU}\mathbbm{1}$\\
+     \hline
+     \vdots & & & $\ddots$ & & \\
+     \hline
+     E & $\textbf{0}_{N\times N}$ & $\textbf{0}_{N\times N}$ & $\cdots$ & $\alpha_{EE}\mathbbm{1}+p_S^*\beta_1\mathbbm{A}$ & $\alpha_{IE}\mathbbm{1}+p_S^*\beta_2\mathbbm{A}$\\
+     \hline
+     I & $\textbf{0}_{N\times N}$ & $\textbf{0}_{N\times N}$ & $\cdots$ & $\alpha_{EI}\mathbbm{1}$ & $\alpha_{II}\mathbbm{1}$
+\end{tabular}\\
  Now that we have attained our matrix, we must calculate all of its eigenvalues.
  \subsubsection{Calculating the Eigenvalues of our Jacobian}
 As we can see in $(19)$, the Jacobian is of the form
@@ -395,8 +420,9 @@ C_{VPM}=p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 
 \end{eqnarray}
 we have finally proven the G2 stability theorem.
 \section{Experimental Verification of the Model}
-\subsection{Simulation of the Time Evolution of the SIR model on Arbitrary Networks with the Gillespie Algorithm}
-Our goal is to reproduce the time evolution of the fraction of infected people and the threshold condition for an outbreak of an epidemic of the SIR model shown in Figure 5 of the paper. \\
+Our aim is to reproduce the model as well as to push it towards its boundaries and find cases, where the epidemic threshold is not described by the effective strength. To do this, we conduct SIR simulations by implementing the Gillespie algorithm, which is described in the following section. Initially, we focus on a setting similar to the one used by \cite{original_paper}. In a further step, we vary the simulation parameters to find possible weaknesses of the model.  In particular, we focus on the influence of the initially infected nodes.
+\subsection{Simulating the Time Evolution of the SIR model on Arbitrary Networks with the Gillespie Algorithm}
+During the course of this chapter, we will analyze the time evolution of the propagating virus.  To do this, we consider the fraction of infected people and the threshold condition for an outbreak of an epidemic in the SIR model shown in Figure 5. \\
 The SIR model states that individuals can either be susceptible for the disease (S), infected (I) or recovered (R). The only two possible events are the following: 
 \begin{enumerate}
 \item[(a)] An infected node infects a susceptible neighbour 
@@ -409,14 +435,14 @@ The model is entirely described by the transmission probability over a contact-l
 \text{total\_infection\_rate} &= \sum\limits_{u\in \text{at\_risk\_nodes}}\beta\times\text{number\_of\_infected\_neighbours}[u]\\
 \text{total\_recovery\_rate}(t)&=\delta\times\text{number\_of\_infected\_nodes}
 \end{align*}
-To solve this problem numerically we have to discretise the time and therefore replace $dt$ with a finite time step $\Delta t$. The smaller $\Delta t$ is chosen the more accurate the algorithm describes the model. \\
-We first want to describe a naive algorithm that could simulate the disease outbreak with the SIR model. Assume we know the state of all nodes at time $t$. Then we can simulate the states of the next time step $t+\Delta t$ with the following algorithm: 
+To solve this problem numerically we have to discretize the time and therefore replace $dt$ with a finite time step $\Delta t$. The smaller $\Delta t$ is chosen, the more accurate the algorithm describes the model. \\
+We first want to describe a naive algorithm that could simulate the disease outbreak with the SIR model. Assuming we know the state of all nodes at time $t$, we can simulate the states of the next time step $t+\Delta t$ with the following algorithm: 
 \begin{enumerate}
 \item generate a random number $r_1$ uniformly distributed in the interval $(0,1)$
 \item  \begin{itemize}
 \item[(a)] If $r_1<\text{total\_rate}\times \Delta t$: generate another number $r_2$ uniformly distributed in the interval $(0, \text{total\_rate})$
 \begin{itemize}
-\item If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered" and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
+\item If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered", and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
 \item Else: Choose $u$ from at\_risk\_nodes with probability \\
 $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infection\_rate}}$, remove it from the at\_risk\_nodes, set its state to infected and add its neighbors to at\_risk\_nodes
 \item Update all rates and start over again with 1. for the time $t+\Delta t$
@@ -424,22 +450,21 @@ $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infec
 \item[(b)] Else: No event occurs in this time interval and we start again with 1. for the time $t+\Delta t$
 \end{itemize}
 \end{enumerate} 
-Since $r_1$ is a random number uniformly distributed in $(0,1)$, the probability that $r_2<\text{total\_recovery\_rate}\times\Delta t$ is equal to $\text{total\_recovery\_rate}\times\Delta t$. So for infinite small $\Delta t$, 2 (a) would exactly simulate the probability that an event will happen in the time step $t+\Delta t$. If an event happens in the considered time interval, the next  question is which event that is. The probability that this event is a recover is given by the probability that $\text{total\_recovery\_rate} <r_2$. In the remaining cases this event will be an transmission of the disease. The probability that a at\_risk\_node gets infected is simply proportional to its number of infected neighbors. \\
-The problem with this algorithm is that by decreasing $\Delta t$ (and therefor increasing the accuracy) the computational intensity gets increased. During most of the time steps, the generated random number $r_1$ is created only to find out that no event happens.\\
-The Gillespie follows a different approach: Instead of looking at each time step whether an event will take place, it calculates the time $t+\tau$ at which the next event occurs. It is a model that was developed in the middle of the 20th century and initially mainly used to simulate chemical or biochemical systems of reactions efficiently \cite{wiki:Gillespie}. Instead of explaining the general algorithm we want to focus on how it can be used to simulate the SIR model.
-\textbf{TRANSLATE:} Dabei orinitieren wir uns an dem paper \cite{paper_gillespie} in welchem gezeigt wird wie der Gillespie-Algorithmus auf chemische Gleichungen angewandt werden kann.
+Since $r_1$ is a random number uniformly distributed in $(0,1)$, the probability that $r_2<\text{total\_recovery\_rate}\times\Delta t$ is equal to $\text{total\_recovery\_rate}\times\Delta t$. So for infinitely small $\Delta t$, 2 (a) would exactly simulate the probability that an event will happen in the time step $t+\Delta t$. If an event happens in the considered time interval, the next  question is which event that is. The probability that a node recovers during this time-step is given by the probability that $\text{total\_recovery\_rate} <r_2$. In the remaining cases this event will be a transmission of the disease. The probability that a at\_risk\_node gets infected is simply proportional to its number of infected neighbors. \\
+The problem with this algorithm is that by decreasing $\Delta t$ (and therefor increasing the accuracy), the computational intensity increases. During most of the time steps, the generated random number $r_1$ is created, even though no event took place.\\
+The Gillespie follows a different approach: Instead of analyzing each time step, it calculates the time $t+\tau$ at which the next event occurs. It is a model that was developed in the middle of the $20^{th}$ century and was mainly used to efficiently simulate chemical or biochemical reactions \cite{wiki:Gillespie}. Instead of explaining the general algorithm, we want to focus on how it can be used to simulate the SIR model. Our paper will closely follow the work done in \cite{paper_gillespie}, where it's shown how the Gillespie algorithm can be used to describe chemical reactions.
 \\
-Define $f(\text{total\_rate}(t), s)ds$ as the probability that for a given $\text{total\_rate}$ at time $t$, the next event will happen during the time interval $[t+s,d+s+ds)$ and $g(\text{total\_rate}(t),s)ds$ as the probability, that no event happen in the time interval $[t,t+s)$. \\
-The probability that for a given time $t$ the next event will happen during the time interval $[t+s,d+s+ds)$ now can be written as the product of the probabilities, that no event happens in the time interval $[t,t+s)$ and the probability that exactly one event happens in the time interval $[t+s,t+s+ds)$: $f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t+s)ds$. Since no event happens in $[t,t+s)$ we know that $\text{total\_rate}(t+s)=\text{total\_rate}(t)$. Therefore: 
+We shall define $f(\text{total\_rate}(t), s)ds$ as the probability that for a given $\text{total\_rate}$ at time $t$, the next event will happen during the time interval $[t+s,d+s+ds)$ and $g(\text{total\_rate}(t),s)ds$ as the probability, that no event happens in the time interval $[t,t+s)$. \\
+The probability that for a given time $t$ the next event will happen during the time interval $[t+s,d+s+ds)$ can now be written as the product of the probabilities, that no event happens in the time interval $[t,t+s)$ and the probability that exactly one event happens in the time interval $[t+s,t+s+ds)$: $f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t+s)ds$. Since no event happens in $[t,t+s)$ we know that $\text{total\_rate}(t+s)=\text{total\_rate}(t)$. Therefore: 
 \begin{align}
 f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t)ds \label{f}
 \end{align}
-Now we want to calculate $g(\text{total\_rate}(t), \sigma )$ for all $\sigma>0$. For an infitesimal time step $d\sigma$ the probability that no event occurs in the time interval $[t,t+\sigma+d\sigma)$  is given by: $g(\text{total\_rate}(t), \sigma+d\sigma)=g(\text{total\_rate}(t), \sigma)[1-\text{total\_rate}(t+\sigma)]d\sigma$. Here we have used the fact that $d\sigma$ is infinitesimal small and therefore the probability that more than one event happens in the time interval $[t+\sigma, t+\sigma+d\sigma)$ is negligible. In this expression we can replace $\text{total\_rate}(t+\sigma)$ with $\text{total\_rate}(t)$ since no event took place in the the time interval $[t,t+\sigma)$. This leads to the following differential equation for $g(\text{total\_rate}(t), \sigma)$: \begin{align*}
+Now we want to calculate $g(\text{total\_rate}(t), \sigma )$ for all $\sigma>0$. For an infinitesimal time step $d\sigma$ the probability that no event occurs in the time interval $[t,t+\sigma+d\sigma)$  is given by: $g(\text{total\_rate}(t), \sigma+d\sigma)=g(\text{total\_rate}(t), \sigma)[1-\text{total\_rate}(t+\sigma)]d\sigma$. Here we have used the fact that $d\sigma$ is infinitesimally small and therefore the probability that more than one event happens in the time interval $[t+\sigma, t+\sigma+d\sigma)$ is negligible. In this expression we can replace $\text{total\_rate}(t+\sigma)$ with $\text{total\_rate}(t)$, since no event took place in the the time interval $[t,t+\sigma)$. This leads to the following differential equation for $g(\text{total\_rate}(t), \sigma)$: \begin{align*}
 \frac{dg(\text{total\_rate}(t), \sigma)}{d\sigma} &= \lim\limits_{d\sigma\to0}\frac{g(\text{total\_rate}(t),\sigma+d\sigma)-g(\text{total\_rate}(t),\sigma)}{d\sigma}\\
 &=-\text{total\_rate}(t)\times g(\text{total\_rate}(t),\sigma)
 \end{align*}
-with the initial condition that $g(\text{total\_rate}(t), 0)=1$ we obtain the unique solution $g(\text{total\_rate}(t), \sigma)=\exp[-\text{total\_rate}(t)\times\sigma]$. From this we know that $f(\text{total\_rate}(t), s)ds\overset{(\ref{f})} = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$ such that the next event happens at the time $t+\tau$ is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
-A Pseudocode for the Gillespie algorithm adopted to the SIR model is shown in Figure \ref{figure: Gillespie-pseudo}\\
+With the initial condition that $g(\text{total\_rate}(t), 0)=1$, we obtain the unique solution $g(\text{total\_rate}(t), \sigma)=\exp[-\text{total\_rate}(t)\times\sigma]$. From this we know that $f(\text{total\_rate}(t), s)ds\overset{(\ref{f})} = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$, such that the next event happens at the time $t+\tau$, is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
+A Pseudocode for the Gillespie algorithm, which can be used to with the SIR model, is shown in Figure \ref{figure: Gillespie-pseudo}.\\
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{figures/algorithm}
@@ -449,7 +474,7 @@ A Pseudocode for the Gillespie algorithm adopted to the SIR model is shown in Fi
 Assuming all states of the system are known for a time $t_0$, the algorithm perform the following steps:  
 \begin{enumerate}
 \item Compute all rates
-\item Compute the time $t+\tau$ at which the next event will happen. Therefeore the random number $\tau$ exponentially distributed according to $f(s) = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)$ is generated
+\item Compute the time $t+\tau$ at which the next event will happen. Therefore the random number $\tau$ exponentially distributed according to $f(s) = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)$ is generated
 \item  Compute which event will happen
 \begin{itemize}
 \item[(a)] If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered" and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
@@ -458,13 +483,39 @@ $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infec
 \end{itemize}
 \item Update all rates and start over again with 1. for the time $t+\tau$
 \end{enumerate} 
-\subsection{Centrality Criteria for Initial Infections}
+\subsection{Centrality Measures for Initial Infections}
+\label{centrality}
+In order to initially infect the most important nodes we use the mathematical concept of centrality. There exist several different centrality measures, however, for our purposes the concept of eigenvector centrality turned out to be suitable.
+The vector of the eigenvector centralities x of all nodes in a network is defined via
+\begin{equation}
+\bold{A}x=\lambda x
+\end{equation}
+where A denotes the networks’ adjacency matrix and lambda denotes the largest eigenvalue of A, which is real and positive by the Perron-Frobenius theorem. Hence, x is the eigenvector of the spectral radius of A. \cite{wiki:centrality}
 \subsection{Implementation}
+For our simulations we used an implementation of the Gillespie algorithm from \cite{Math_on_ep} as well as Python functions enabling us to plot the time behaviour of the infection and the footprint of the infection depending on the effective strength. Our Code uses the libraries scipy, matplotlib, networkX and EoN.
+\subsubsection*{Data sets}
+\begin{enumerate}
+\item[i] AS-OREGON: Internet connection data collected by University of Oregon Route Views Project
+\item[ii] FACEBOOK-EGO: Data from a survey on facebook app usage
+\item[iii] TERRORISTS:
+\end{enumerate}
 \subsection{Simulation Results and Discussion}
+This section closely follows the full test provided in the code section of the GIT repository belonging to this paper. All the calculations were conducted on an ordinary personal computer using unmodified Python 3.7. For the plots we ran at least 200 independent simulations each and plotted their arithmetic mean.
+\subsubsection*{Reproduction of previous work}
+To reproduce the work in \cite{original_paper} we used the AS-OREGON data set, which is similar to one of the data sets in their experiments. Initially we infected 10 random nodes and investigated the time behaviour of the SIR simulation, which is shown in figure \textbf{(1a)}. The result matches the expectations, as s-Values greater 1 lead to a significant increase of infected nodes while under-critical infections ($s < 1$) die out quickly. This behaviour is confirmed by figure \textbf{(2)}, which supports the assumption, the tipping point is around 1.
+\subsubsection*{Initial infection size}
+As we were able to reproduce the results from \cite{original_paper}, we investigated the influence of the size of the initially infected population. So, we ran the same simulation as beforehand with different numbers of randomly selected nodes infected in the beginning. The result is shown in figure \textbf{(3a)}, which suggests, that the model is still valid, even for a notable size of initially infected nodes. However, the tipping point slightly moved to the left with increasing number of initial infections.
+\subsubsection*{Infection of important nodes}
+In the next step, we initially infected the nodes with the highest eigenvector centrality (see section \ref{centrality}). As expected, this is beneficial to the spreading of the virus. Figure \textbf{(4)} compares the footprint of random infection with critical node infection and depicts, that the initial infection of the nodes with the highest eigenvalue centrality has a tipping point moved to the left, even slightly beyond 1. Hence, infection of critical nodes brings the model already close to its border.
 
+Additionally, we conducted experiments with larger numbers of critical initial infection. The results, shown in figure \textbf{(3b)}, indicate again that initial infection of the nodes with the highest centrality leads to a tipping point very close to 1, particularly for larger numbers of initially infected nodes. However, the model can still be considered valid, as the footprint for effective strengths below 1 remains very close to the initial infection. This meets, due to the generality of the proof (see section \ref{proof}), our expectations.
+\subsubsection*{Verification with highly connected network}
+To verify the results of the previous section, we ran the very same simulation on a different network. We used the FACEBOOK-EGO network, which has a slightly smaller number of nodes, but nevertheless a larger spectral radius and therefore a higher density of connections, and were able to reproduce all the outcomes from the AS-OREGON network. As expected, the model is also valid for all our test cases on this network.
+\subsubsection*{Behaviour of small networks}
+As the behavior for very large graphs was already investigated in \cite{original_paper} using the PORTLAND graph with 1.6 million nodes, we were interested if the model also applicable for small networks. Hence, we ran simulations on the TERRORISTS network with 62 nodes and a high density of connections. We again infected the nodes with the highest eigenvector centrality. Figure \textbf{(5)} shows the results for different sizes of the initial infection. Now the tipping point is, especially for larger numbers of initially infected nodes, below one. This is interesting, as for the larger networks even higher rates of initially infected nodes led to no disease spreading. Hence, we draw the conclusion that the model is not generally valid for small networks.
 \section{Summary and Outlook}
 
-\section{References}
+
 \bibliographystyle{plain}
 \bibliography{bibfile}
 
