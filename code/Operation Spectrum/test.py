@@ -13,7 +13,7 @@ from centrality import crucialNodesEigenvector, crucialNodesDegree
 
 
 # suppresses warning while creating plot
-from sirFunctions import fig_5_left
+from sirFunctions import fig_5_left, fig_5_right
 
 warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
@@ -38,10 +38,9 @@ number_of_steps = 20
 eig = obtainMaxEig(G)
 print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
 
-delta = [0.01, 0.01, 10, 10]
-beta = [0.5/eig*delta[0], 5/eig*delta[1], 0.5/eig*delta[2], 5/eig*delta[3]]  # Defining the different s values (as s = eig*beta/delta)
+fig_5_left(G, initial_size, iterations, curves=2, beta=[0.95/eig, 1.5/eig], delta=[1, 1])
+#fig_5_right(G, initial_size, iterations, number_of_steps, show=False)
 
-fig_5_left(G, initial_size, 10*iterations, beta=beta, delta=delta)  # more iterations possible due to better performance
 
 
 

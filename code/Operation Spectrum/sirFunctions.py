@@ -62,7 +62,7 @@ def time_evolution(G, beta, delta, initial_size, start_time, end_time, iteration
         print("Invalid 'opt' parameter passed!")
 
 
-def fig_5_left(G, initial_size, iterations, initial_nodes  = [], beta = [0.15, 0.05, 0.02, 0.01], delta =[1, 1, 1, 1]):
+def fig_5_left(G, initial_size, iterations, initial_nodes  = [], curves = 4, beta = [0.15, 0.05, 0.02, 0.01], delta =[1, 1, 1, 1]):
     """Plots the infective fraction of a population vs time using an SIR simulation on a graph with multiple iterations and averaging
 
         Arguments:
@@ -70,6 +70,7 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], beta = [0.15, 0
             initial_size -- the initial size of the infected population
             iterations -- the number of independent simulations (the average value is returned)
             initial_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
+            curves -- number of independent curves in the plot
             beta -- array of SIR beta values, same length as delta (default: [1, 1, 1, 1])
             delta -- array of SIR delta values, same length as beta (default: [0.15, 0.05, 0.02, 0.01])
     """
@@ -79,18 +80,12 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], beta = [0.15, 0
     start_time = 0
     end_time = 10
 
-    label1 = r's = ' + str(s_SIR(eig, beta[0], delta[0], digits))
-    label2 = r's = ' + str(s_SIR(eig, beta[1], delta[1], digits))
-    label3 = r's = ' + str(s_SIR(eig, beta[2], delta[2], digits))
-    label4 = r's = ' + str(s_SIR(eig, beta[3], delta[3], digits))
-    time_evolution(G, beta[0], delta[0], initial_size, start_time, end_time,
-                   iterations, label1, initial_nodes = initial_nodes)
-    time_evolution(G, beta[1], delta[1], initial_size, start_time, end_time,
-                   iterations, label2, initial_nodes = initial_nodes)
-    time_evolution(G, beta[2], delta[2], initial_size, start_time, end_time,
-                   iterations, label3, initial_nodes = initial_nodes)
-    time_evolution(G, beta[3], delta[3], initial_size, start_time, end_time,
-                   iterations, label4, initial_nodes = initial_nodes)
+    label = []
+    for i in range(curves):
+        label.append(r's = ' + str(s_SIR(eig, beta[i], delta[i], digits)))
+        time_evolution(G, beta[i], delta[i], initial_size, start_time, end_time,
+                   iterations, label[i], initial_nodes = initial_nodes)
+
     plt.legend()
     plt.xlabel("Time ticks")
     plt.ylabel("Fraction of Infected People")
