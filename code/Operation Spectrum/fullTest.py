@@ -1,4 +1,9 @@
-"""Reproduction of our work"""
+"""
+Reproduction of our work
+
+Note that the term 'paper' in this section refers to B. Aditya Prakash, D. Chakrabarti, N. Valler, M. Faloutsos, C. Faloutsos (2012):
+Threshold Conditions for Arbitrary Cascade Models on Arbitrary Networks. Knowledge and Information Systems manuscript No. KAIS-12-3483R
+"""
 
 from sirFunctions import fig_5_left, fig_5_right, fig_5_right_initial
 from fetchData import importEdgeListFile
@@ -6,12 +11,11 @@ from calculateLambda import obtainMaxEig
 from centrality import crucialNodesEigenvector
 
 
-# Data source (for details see data/readme.md) #########################################################################
+# Data sources (for details see data/readme.md) ########################################################################
 
-E = importEdgeListFile("data/as-oregon/as20000102.txt", '\t')
-#E = importEdgeListFile("data/as-oregon/as20010331.txt", ':')
-#E = importEdgeListFile("data/facebook_ego.txt", ' ')
-#E = importEdgeListFile('data/terrorist.txt', '\t')
+E = importEdgeListFile("data/as-oregon/as20000102.txt", '\t') # used for reproduction of the paper
+#E = importEdgeListFile("data/facebook_ego.txt", ' ')  # used for validation of the paper
+#E = importEdgeListFile('data/terrorist.txt', '\t')  # used to challenge the model with a small network
 
 
 # Simulation parameters ################################################################################################
@@ -22,7 +26,7 @@ iterations = 0  # number of independent simulation runs (overall results are ave
 number_of_steps = 0  # number of different s-values in fig_5_right and fig_5_right_initial
 
 
-# Reproduction of SIR figures from the original paper (page 13) ########################################################
+# Reproduction of SIR figures from the paper (page 13) #################################################################
 
 initial_size = 10
 iterations = 200  # strongly affects computation effort (200 used for report)
@@ -35,14 +39,14 @@ print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
 beta = [0.1/eig, 0.5/eig, 20/eig, 100/eig]  # Defining the different s values (as s = eig*beta/delta)
 delta = [1, 1, 1, 1]
 
-fig_5_left(E, initial_size, 10*iterations, beta=beta, delta=delta)  # more iterations possible due to better performance
+fig_5_left(E, initial_size, 10*iterations, beta=beta, delta=delta)
 fig_5_right(E, initial_size, iterations, number_of_steps)
 
 
 # Investigating the influence of the number of initial nodes ###########################################################
 
 initial_sizes = [2, 10, 100, 1000]
-fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, parallel=True)
+fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, parallel=False)
 
 
 # Investigating the influence of infecting the nodes with the highest eigenvector centrality ###########################
@@ -67,3 +71,41 @@ fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, initial_nodes
 
 beta = [0.5/eig, 0.8/eig, 3/eig, 10/eig]
 fig_5_left(E, initial_size, 10*iterations, initial_nodes=initial_nodes, beta=beta, delta=delta)
+
+
+# Validation of the paper using a different graph ######################################################################
+
+E = importEdgeListFile("data/facebook_ego.txt", ' ')
+
+eig = obtainMaxEig(E)
+print("\n" + str(len(E.nodes)) + " nodes")
+print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
+
+initial_nodes = crucialNodesEigenvector(E, number_of_nodes=initial_size)
+print("Nodes with highest betweenness: " + str(initial_nodes))
+
+fig_5_right(E, initial_size, iterations, number_of_steps, show=False)
+fig_5_right(E, initial_size, iterations, number_of_steps, initial_nodes=initial_nodes)
+
+initial_nodes_array = list()
+for i in range(0, len(initial_sizes)):
+    initial_nodes_array.append(crucialNodesEigenvector(E, number_of_nodes=initial_sizes[i]))
+
+fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, initial_nodes=initial_nodes_array)
+
+
+# Challenging the model using a small network ##########################################################################
+
+E = importEdgeListFile('data/terrorist.txt', '\t')
+
+eig = obtainMaxEig(E)
+print("\n" + str(len(E.nodes)) + " nodes")
+print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
+
+initial_sizes = [1, 2, 5]
+
+initial_nodes_array = list()
+for i in range(0, len(initial_sizes)):
+    initial_nodes_array.append(crucialNodesEigenvector(E, number_of_nodes=initial_sizes[i]))
+
+fig_5_right_initial(E, initial_sizes, 20*iterations, number_of_steps, initial_nodes=initial_nodes_array)

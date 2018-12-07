@@ -1,6 +1,6 @@
 """Provides testing capabilities for the graph-related functions"""
 
-# TODO: löschen, wenn sonst alles fertig
+# TODO: löschen, wenn sonst alles fertig -> ggf. Inhalte in lightTest transferieren
 
 import warnings
 import matplotlib.cbook

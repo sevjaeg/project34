@@ -77,7 +77,7 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], beta = [0.15, 0
     eig = obtainMaxEig(G)
     digits = 3
     start_time = 0
-    end_time = 1000
+    end_time = 10
 
     label1 = r's = ' + str(s_SIR(eig, beta[0], delta[0], digits))
     label2 = r's = ' + str(s_SIR(eig, beta[1], delta[1], digits))
