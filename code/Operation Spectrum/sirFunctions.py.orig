@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+
+"""Provides functions to run the SIR simulation in sirSimulation.py"""
+=======
 """Provides functions to run SIR simulations"""
+>>>>>>> 55966e2990a03be8f3c3aacd29a5429e19eca2b4
 
 import EoN  # library providing tools to run fast SIR simulations using the Gillespie algorithm
 import random
@@ -130,7 +135,8 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
         plt.savefig('build/fig_5_right_crucial.png')
     else:
         plt.savefig('build/fig_5_right_random.png')
-    plt.show()
+    if(show):
+        plt.show()
 
 
 def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_nodes = [], parallel = False, show = True):

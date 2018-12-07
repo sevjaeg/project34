@@ -1,8 +1,9 @@
-# Modelling Social Systems Fall 2018 – Research Plan
+# Modeling and Simulation of Social Systems Fall 2018 – Research Plan
 
 > * Group Name: Operation Spectrum
 > * Group participants names: Hahn Thomas, Jäger Severin, Schubert Yannick
 > * Project Title: (can be changed later)
+> * Programming language: Python
 
 ## General Introduction
 
@@ -12,7 +13,7 @@
 
 ## The Model
 
-(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
+(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abstraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
 
 
 ## Fundamental Questions
@@ -41,3 +42,14 @@
 ## Other
 
 (mention datasets you are going to use)
+
+# Reproducibility
+
+## Light test
+
+(step by step instructions to reproduce your results. *Keep in mind that people reading this should accomplish to reproduce your work within 10 minutes. It needs to be self-contained and easy to use*. e.g. git clone URL_PROY; cd URL_PROY; python3 main.py --light_test (#--light test runs in less than 5minutes with up to date hardware). Avoid obscure libraries for this test.) 
+
+## Full test
+Make sure you have the following libraries installled: scipy, matplotlib, networkx, EoN
+The file fullTest.py contains the codes used to generate the plots in the results section of the report and can therefore be used for reproduction.
+
