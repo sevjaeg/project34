@@ -208,7 +208,7 @@ We will now need a theorem, which will not be proven (e.g. see \cite{Stability})
   \end{eqnarray}
   Here, $\text{Trans}_{MC_{SV}}$ denotes the stochastic matrix of the Markov chain $MC_{SV}$.  To create a probability vector for an arbitrary node $i$ with has entries for all states, including the Infected states, we just add two $0$ entries to $ \pi^{\star}$.  We  shall call this new vector $p^\star$.  To finally attain the fixed point that describes all nodes, we define $\bold{x}$ to be 
   \begin{eqnarray}
-  \bold{x} = \left[ p^\star,  p^\star, ..., p^\star \right]^T ,
+  \bold{x} = \left( p^\star,  p^\star, ..., p^\star \right)^T ,
   \end{eqnarray}
 where $ p^\star$ is included $n$ times.  We define $p_{S_{y}}^\star$ to be the steady state probability of an arbitrary node $i$ being an element in state $S_y$.  In addition, let \begin{eqnarray}
 p_S^\star = \sum_{y=1}^w p_{S_{y}}^\star .
