@@ -1,3 +1,4 @@
+
 """Provides functions to run the SIR simulation in sirSimulation.py"""
 
 import EoN  # library providing tools to run fast SIR simulations using the Gillespie algorithm
