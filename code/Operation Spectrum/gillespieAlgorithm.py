@@ -3,7 +3,7 @@ the function subsample. All code is taken and modified from
 https://epidemicsonnetworks.readthedocs.io/en/latest/_modules/EoN/simulation.html
 and
 https://epidemicsonnetworks.readthedocs.io/en/latest/functions/EoN.subsample.html
-licence:
+license:
 
 
 Copyright (c) 2016   Joel C Miller
