@@ -3,8 +3,9 @@ the function subsample. All code is taken and modified from
 https://epidemicsonnetworks.readthedocs.io/en/latest/_modules/EoN/simulation.html
 and
 https://epidemicsonnetworks.readthedocs.io/en/latest/functions/EoN.subsample.html
-licence:
 
+
+LICENSE:
 
 Copyright (c) 2016   Joel C Miller
 
@@ -33,7 +34,7 @@ import scipy
 from collections import defaultdict  # container data type
 
 
-class _ListDict_(object):
+class _ListDict_(object):  # defines data type
     def __init__(self):
         self.item_to_position = {}
         self.items = []
@@ -70,8 +71,7 @@ class _ListDict_(object):
 
 
 def Gillespie_SIR(G, tau, gamma, initial_infecteds=None, tmin = 0, tmax=float('Inf')):
-    r'''
-    
+    """
     Performs SIR simulations for epidemics.
     
     :Arguments:
@@ -97,9 +97,9 @@ def Gillespie_SIR(G, tau, gamma, initial_infecteds=None, tmin = 0, tmax=float('I
         
     **times, S, I, R** each a scipy array
         giving times and number in each status for corresponding time
-    
-    '''
-    
+    """
+
+
     I = [len(initial_infecteds)]
     R = [0]
     S = [G.order()-I[0]]
@@ -172,9 +172,8 @@ def Gillespie_SIR(G, tau, gamma, initial_infecteds=None, tmin = 0, tmax=float('I
     return scipy.array(times), scipy.array(S), scipy.array(I), scipy.array(R)
 
 
-def subsample(report_times, times, status1, status2=None, 
-                status3 = None):
-    r'''
+def subsample(report_times, times, status1, status2=None, status3 = None):
+    """
     Given 
       S, I, and/or R as lists of numbers of nodes of the given status
       at given times
@@ -219,8 +218,9 @@ def subsample(report_times, times, status1, status2=None,
     or
         **[report_status1, report_status2, report_status3]**
     In each case, these are subsampled just at report_times.
+    """
 
-    '''
+
     report_status1 = []
     next_report_index = 0
     next_observation_index = 0

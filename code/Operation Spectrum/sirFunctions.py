@@ -1,13 +1,12 @@
 """Provides functions to run SIR simulations"""
 
-import EoN  # library providing tools to run fast SIR simulations using the Gillespie algorithm
 import random
 import scipy
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 from calculateLambda import obtainMaxEig
 from joblib import Parallel, delayed
-
+from gillespieAlgorithm import Gillespie_SIR, subsample
 
 def s_SIR(eig, beta, delta, digits):  # Effective virus strength
     """Returns the effective virus strength of a SIR model on a graph
@@ -48,8 +47,8 @@ def time_evolution(G, beta, delta, initial_size, start_time, end_time, iteration
             initial_nodes = random.sample(G.nodes, initial_size)
         else:
             initial_nodes = initial_nodes
-        t, S, I, R = EoN.Gillespie_SIR(G, beta, delta, initial_infecteds=initial_nodes)
-        _, newI, newR = EoN.subsample(report_times, t, S, I, R)
+        t, S, I, R = Gillespie_SIR(G, beta, delta, initial_infecteds=initial_nodes)
+        _, newI, newR = subsample(report_times, t, S, I, R)
         Isum += newI
         Rsum += newR
     I_average = Isum / float(iterations)
@@ -89,10 +88,6 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], curves = 4, bet
     plt.xlabel("Time ticks")
     plt.ylabel("Fraction of Infected People")
     plt.grid()
-    if initial_nodes:
-        plt.savefig('build/fig_5_left_crucial.png')
-    else:
-        plt.savefig('build/fig_5_left_random.png')
     plt.show()
 
 
@@ -125,10 +120,6 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
     plt.grid()
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
     plt.ylabel("Final Number of Cured Nodes")
-    if initial_nodes:
-        plt.savefig('build/fig_5_right_crucial.png')
-    else:
-        plt.savefig('build/fig_5_right_random.png')
     if show:
         plt.show()
 
@@ -175,9 +166,5 @@ def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_n
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
     plt.ylabel("Final Number of Cured Nodes")
     plt.grid()
-    if initial_nodes:
-        plt.savefig('build/fig_5_right_initial_crucial.png')
-    else:
-        plt.savefig('build/fig_5_right_initial_random.png')
     if(show):
         plt.show()
