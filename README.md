@@ -61,7 +61,7 @@ SIR simulations using the Gillespie Algorithm to reproduce and challenge the mod
 
 ## Data sets
 
-AS-OREGON: Graph of Internet´s Autonomous Systems collected by University of Oregon Route Views Project, data from January 02, 2000 downloaded from https://snap.stanford.edu/data/as-733.html
+AS-OREGON: Graph of Internet´s Autonomous Systems collected by University of Oregon Route Views Project, data from January 02, 2000. Downloaded from https://snap.stanford.edu/data/as-733.html
 		
 facebook_ego.txt: Data from a survey on Facebook app usage. Downloaded from https://snap.stanford.edu/data/ego-Facebook.html
 
