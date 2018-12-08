@@ -5,7 +5,6 @@ import scipy
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 from calculateLambda import obtainMaxEig
-from joblib import Parallel, delayed
 from gillespieAlgorithm import Gillespie_SIR, subsample
 
 def s_SIR(eig, beta, delta, digits):  # Effective virus strength
@@ -91,7 +90,7 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], curves = 4, bet
     plt.show()
 
 
-def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = [], parallel = False, show = True):
+def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = [], show = True):
     """Plots the virus footprint vs effective virus strength using an SIR simulation on a graph with multiple iterations and averaging
 
         Arguments:
@@ -109,13 +108,8 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
     eig = obtainMaxEig(G)
     beta_range = scipy.logspace(-2, 2, number_of_steps)
     final_number_of_cured_nodes = scipy.zeros_like(beta_range)
-    if parallel:
-        final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
-            delayed(time_evolution)(G, beta, eig, initial_size, start_time, end_time, iterations, "",
-                                    opt='number_of_cured_nodes', initial_nodes=initial_nodes) for i, beta in enumerate(beta_range))
-    else:
-        for i, beta in enumerate(beta_range):
-            final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_size, start_time, end_time, iterations, "", opt ='number_of_cured_nodes', initial_nodes = initial_nodes)
+    for i, beta in enumerate(beta_range):
+        final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_size, start_time, end_time, iterations, "", opt ='number_of_cured_nodes', initial_nodes = initial_nodes)
     plt.semilogx(beta_range, final_number_of_cured_nodes, linewidth = 2)
     plt.grid()
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
@@ -124,7 +118,7 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
         plt.show()
 
 
-def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_nodes = [], parallel = False, show = True):
+def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_nodes = [], show = True):
     """Plots multple virus footprint vs effective virus strength graphs with different initial infected populations
        using an SIR simulation on a graph with multiple iterations and averaging
 
@@ -144,22 +138,12 @@ def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_n
     beta_range = scipy.logspace(-2, 2, number_of_steps)
     final_number_of_cured_nodes = scipy.zeros_like(beta_range)
     for j in range(len(initial_sizes)):
-        if parallel:
+        for i, beta in enumerate(beta_range):
             if not initial_nodes:
-                final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
-                    delayed(time_evolution)(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "",
-                                            opt='number_of_cured_nodes') for i, beta in enumerate(beta_range))
+                final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes')
             else:
-                final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
-                    delayed(time_evolution)(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "",
-                                            opt='number_of_cured_nodes', initial_nodes=initial_nodes[j]) for i, beta in enumerate(beta_range))
-        else:
-            for i, beta in enumerate(beta_range):
-                if not initial_nodes:
-                    final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes')
-                else:
-                   final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes',
-                                                                    initial_nodes=initial_nodes[j])
+               final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_sizes[j], start_time, end_time, iterations, "", opt='number_of_cured_nodes',
+                                                                initial_nodes=initial_nodes[j])
         plt.semilogx(beta_range, final_number_of_cured_nodes, label = str(initial_sizes[j]) + " nodes", linewidth = 2)
     plt.grid()
     plt.legend()
