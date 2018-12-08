@@ -1,0 +1,108 @@
+@misc{wiki:Gillespie,
+    author = "{Wikipedia contributors}",
+    title = "Gillespie algorithm --- {Wikipedia}{,} The Free Encyclopedia",
+    year = "2018",
+    howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Gillespie_algorithm&oldid=867948442}",
+    note = "[Online; accessed 7-December-2018]"
+  }
+  
+ @InBook{Math_on_ep,
+ author = {{István Z. Kiss, Joel C. Miller, Péter L. Simon}},
+ ALTeditor = {•},
+ title = {Mathematics of Epidemics on Networks},
+ chapter = {Appendix A},
+ publisher = {Springer, Cham},
+ year = {2017},
+ OPTkey = {•},
+volume = {46},
+ OPTnumber = {•},
+ OPTseries = {•},
+ OPTtype = {•},
+ OPTaddress = {•},
+ OPTedition = {•},
+ OPTmonth = {•},
+ pages = {382},
+ OPTnote = {•},
+ OPTannote = {•}
+ }
+ 
+ @InBook{Stability,
+ author = {{Hirsch MW}},
+ title = {Differential Equations, Dynamical Systems and Linear Algebra},
+ publisher = {Morris W. Hirsch Stephen Smale Robert L. Devaney Stephen Smale},
+ year = {1974},
+
+ }
+ 
+ 
+
+@Misc{paper_gillespie,
+OPTkey = {•},
+author = {{Radek Erban, S. Jonathan Chapman, Philip K. MAINI}},
+title = {A Practical Guide to Stochastic Simulations of Reaction-Diffision Processes},
+howpublished = {https://arxiv.org/pdf/0704.1908.pdf},
+OPTmonth = {•},
+OPTyear = {•},
+OPTnote = {•},
+OPTannote = {•},
+note = "[Online; accessed 7-December-2018]"
+}
+
+@Misc{original_paper,
+OPTkey = {•},
+author = {{B. Aditya Prakash, Deepayan
+Chakrabarti, Nicholas Valler, Michalis
+Faloutsos, Christos Faloutsos}},
+title = {Threshold Conditions for Arbitrary
+Cascade Models on Arbitrary
+Networks},
+howpublished = {Knowledge and Information Systems manuscript No. KAIS-12-3483R1},
+OPTmonth = {•},
+year = {2012},
+OPTnote = {•},
+OPTannote = {•}
+}
+
+@Misc{wiki:centrality,
+    author = "{Wikipedia contributors}",
+    title = "Centrality --- {Wikipedia}{,} The Free Encyclopedia",
+    year = "2018",
+    howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Centrality&oldid=861906659}",
+    note = "[Online; accessed 7-December-2018]"
+}
+
+@Misc{as-oregon,
+    author = "{Jure Leskovec}",
+    title = "{Autonomous systems AS-733}",
+    OPTyear = {},
+    howpublished = "\url{https://snap.stanford.edu/data/as-733.html}",
+    note = "[Online; accessed 8-December-2018]"
+}
+
+@Misc{facebook-ego,
+    author = "{Jure Leskovec}",
+    title = "{Social cirlces: Facebook}",
+    OPTyear = {},
+    howpublished = "\url{https://snap.stanford.edu/data/ego-Facebook.html}",
+    note = "[Online; accessed 8-December-2018]"
+}
+
+@Misc{terrorists,
+    author = "{Aaron Clauset}",
+    title = "{Terrorist associations for 9/11 attacks}",
+    OPTyear = {},
+    howpublished = "\url{http://tuvalu.santafe.edu/~aaronc/datacode.htm}",
+    note = "[Online; accessed 8-December-2018]"
+}
+ 
+@Misc{Code-Gillespie,
+author = {Joel C. Miller},
+title = {Git Repository Mathematics-of-Epidemics-on-Networks},
+howpublished = "\url{https://github.com/springer-math/Mathematics-of-Epidemics-on-Networks/blob/4005900b7307a455f5912fb4ec3281a47be0530d/EoN/simulation.py}",
+note = "[Online; accessed December-2018]"
+}
+
+ 
+ 
+ 
+
