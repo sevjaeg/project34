@@ -11,12 +11,12 @@ The social sciences have long tried to predict the time evolution propagation of
 ideas, etc.  Obviously, a deep understanding of how and why diseases spread would allow
 us to better come up with prevention measures. Their first attempt was to parametrize the
 disease and analyze the spreading during short time-steps.  The topology of the system,
-i.e.   a  structure  that  describes  the  connection  of  any  all  players  (or  lack  thereof),  was
+i.e.  a  structure  that  describes  the  connection  between all  players,  was
 completely ignored.  It  was just  assumed that everyone  knew everyone.  More recently,
 experts in this field have managed to not only create a theory that includes both aspects,
 but also achieve a decoupling.  This, of course, is by no means trivial.
 We  will  base  our  work  on  the  paper  ’Threshold  Conditions  for  Arbitrary  Cascade
-Models  on  Arbitrary  Networks”  from  2012 .   They  claim  to  be  the  first  ones  to  de-
+Models  on  Arbitrary  Networks”  from  2012 .  They  claim  to  be  the  first  ones  to  de-
 couple the virus propagation model form the topology of the network.  There, they define
 a virus strength as the product of the largest eigenvalue of the connectivity matrix and a
 constant, which only depends on the virus propagation model.
@@ -41,7 +41,7 @@ propagation in very small networks can still be analyzed with this theorem.
 
 ## Expected Results
 
-In general, we expect the model to work just, but we will try to figure out, whether it fails for some initial conditions.
+In general, we expect the model to work just fine, but we will try to figure out whether it fails for some initial conditions.
 
 
 ## References 
@@ -50,6 +50,7 @@ B.  Aditya  Prakash,  Deepayan  Chakrabarti,  Nicholas  Valler,  Michalis  Falou
 Christos Faloutsos.  Threshold conditions for arbitrary cascade models on arbitrary
 networks.   Knowledge  and  Information  Systems  manuscript  No.  KAIS-12-3483R1,
 2012
+
 Istvan Z. Kiss, Joel C. Miller, P ́eter L. Simon. Mathematics  of  Epidemics  on  Networks, volume 46.  Springer, Cham, 2017
 
 
