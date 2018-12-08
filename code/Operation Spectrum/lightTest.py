@@ -25,5 +25,3 @@ number_of_steps = 12  # different effective virus strenghts (x-axis values)
 fig_5_right(G, initial_size, iterations, number_of_steps)
 
 # TODO: was mach ma da?
-
-
