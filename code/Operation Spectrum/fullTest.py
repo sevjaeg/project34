@@ -45,7 +45,7 @@ fig_5_right(E, initial_size, iterations, number_of_steps)
 
 # Investigating the influence of the number of initial nodes ###########################################################
 
-initial_sizes = [2, 10, 100, 1000]
+initial_sizes = [10, 100, 1000]
 fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, parallel=False)
 
 
@@ -108,4 +108,4 @@ initial_nodes_array = list()
 for i in range(0, len(initial_sizes)):
     initial_nodes_array.append(crucialNodesEigenvector(E, number_of_nodes=initial_sizes[i]))
 
-fig_5_right_initial(E, initial_sizes, 20*iterations, number_of_steps, initial_nodes=initial_nodes_array)
+fig_5_right_initial(E, initial_sizes, 500*iterations, number_of_steps, initial_nodes=initial_nodes_array)

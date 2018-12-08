@@ -85,7 +85,6 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], curves = 4, bet
         label.append(r's = ' + str(s_SIR(eig, beta[i], delta[i], digits)))
         time_evolution(G, beta[i], delta[i], initial_size, start_time, end_time,
                    iterations, label[i], initial_nodes = initial_nodes)
-
     plt.legend()
     plt.xlabel("Time ticks")
     plt.ylabel("Fraction of Infected People")
@@ -117,11 +116,11 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
     final_number_of_cured_nodes = scipy.zeros_like(beta_range)
     if parallel:
         final_number_of_cured_nodes = Parallel(n_jobs=mp.cpu_count())(
-            delayed(time_evolution)(G, beta, eig, initial_size, start_time, end_time, iterations, "Hi",
+            delayed(time_evolution)(G, beta, eig, initial_size, start_time, end_time, iterations, "",
                                     opt='number_of_cured_nodes', initial_nodes=initial_nodes) for i, beta in enumerate(beta_range))
     else:
         for i, beta in enumerate(beta_range):
-            final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_size, start_time, end_time, iterations, "Hi", opt ='number_of_cured_nodes', initial_nodes = initial_nodes)
+            final_number_of_cured_nodes[i] = time_evolution(G, beta, eig, initial_size, start_time, end_time, iterations, "", opt ='number_of_cured_nodes', initial_nodes = initial_nodes)
     plt.semilogx(beta_range, final_number_of_cured_nodes, linewidth = 2)
     plt.grid()
     plt.xlabel(r'Effective Strength of Virus $\lambda_1\beta/\delta$')
@@ -130,7 +129,8 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
         plt.savefig('build/fig_5_right_crucial.png')
     else:
         plt.savefig('build/fig_5_right_random.png')
-    plt.show()
+    if show:
+        plt.show()
 
 
 def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_nodes = [], parallel = False, show = True):
