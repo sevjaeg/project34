@@ -5,7 +5,6 @@ The following libraries are required:
     scipy
     networkX
     matplotlib
-    EoN
 """
 
 from fetchData import importEdgeListFile
@@ -19,10 +18,10 @@ G = importEdgeListFile('data/terrorist.txt', '\t')  # TODO: passenden Graph ausw
 
 print("Largest eigenvalue: " + str(round(obtainMaxEig(G), 3)))
 
-initial_size = 1  # initially infected nodes
+initial_size = 2  # initially infected nodes
 iterations = 50  # independent calculations for averaging
 number_of_steps = 12  # different effective virus strenghts (x-axis values)
 
+fig_5_right(G, initial_size, iterations, number_of_steps)
+
 # TODO: was mach ma da?
-
-

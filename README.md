@@ -79,7 +79,7 @@ The file lightTest.py contains the codes used to generate the plots in the resul
 
 ## Full test
 
-Make sure you have the following libraries installled: scipy, matplotlib, networkx, EoN
+Make sure you have the following libraries installled: scipy, matplotlib, networkx
 
 The file fullTest.py contains the codes used to generate the plots in the results section of the report and can therefore be used for reproduction.
 
