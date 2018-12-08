@@ -62,9 +62,13 @@ SIR simulations using the Gillespie Algorithm to reproduce and challenge the mod
 ## Data sets
 
 AS-OREGON: Graph of Internet´s Autonomous Systems collected by University of Oregon Route Views Project
+
 	as20000102.txt	data from January 02, 2000 downloaded from https://snap.stanford.edu/data/as-733.html
+	
 	as20010331.txt  data from March 31, 2001 downloaded from http://topology.eecs.umich.edu/data.html
+	
 facebook_ego.txt: Data from a survey on Facebook app usage. Downloaded from https://snap.stanford.edu/data/ego-Facebook.html
+
 terrorists.txt: Social associations between terrorists involved in the 9/11 attacks. Downloaded from http://tuvalu.santafe.edu/~aaronc/datacode.htm
 	
 
@@ -73,11 +77,13 @@ terrorists.txt: Social associations between terrorists involved in the 9/11 atta
 ## Light test
 
 Make sure you have the following libraries installled: scipy, matplotlib, networkx
+
 The file lightTest.py contains the codes used to generate the plots in the results section of the report and can therefore be used for reproduction.
 
 
 ## Full test
 
 Make sure you have the following libraries installled: scipy, matplotlib, networkx, EoN
+
 The file fullTest.py contains the codes used to generate the plots in the results section of the report and can therefore be used for reproduction.
 
