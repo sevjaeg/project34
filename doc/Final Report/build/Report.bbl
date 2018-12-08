@@ -1,0 +1,70 @@
+\begin{thebibliography}{10}
+
+\bibitem{terrorists}
+{Aaron Clauset}.
+\newblock {Terrorist associations for 9/11 attacks}.
+\newblock \url{http://tuvalu.santafe.edu/~aaronc/datacode.htm}.
+\newblock [Online; accessed 8-December-2018].
+
+\bibitem{original_paper}
+{B. Aditya Prakash, Deepayan Chakrabarti, Nicholas Valler, Michalis Faloutsos,
+  Christos Faloutsos}.
+\newblock Threshold conditions for arbitrary cascade models on arbitrary
+  networks.
+\newblock Knowledge and Information Systems manuscript No. KAIS-12-3483R1,
+  2012.
+
+\bibitem{Stability}
+{Hirsch MW}.
+\newblock {\em Differential Equations, Dynamical Systems and Linear Algebra}.
+\newblock Morris W. Hirsch Stephen Smale Robert L. Devaney Stephen Smale, 1974.
+
+\bibitem{Math_on_ep}
+{István Z. Kiss, Joel C. Miller, Péter L. Simon}.
+\newblock {\em Mathematics of Epidemics on Networks}, volume~46, chapter
+  Appendix A, page 382.
+\newblock Springer, Cham, 2017.
+
+\bibitem{as-oregon}
+{Jure Leskovec}.
+\newblock {Autonomous systems AS-733}.
+\newblock \url{https://snap.stanford.edu/data/as-733.html}.
+\newblock [Online; accessed 8-December-2018].
+
+\bibitem{facebook-ego}
+{Jure Leskovec}.
+\newblock {Social cirlces: Facebook}.
+\newblock \url{https://snap.stanford.edu/data/ego-Facebook.html}.
+\newblock [Online; accessed 8-December-2018].
+
+\bibitem{Code-Gillespie}
+Joel~C. Miller.
+\newblock Git repository mathematics-of-epidemics-on-networks.
+\newblock
+  \url{https://github.com/springer-math/Mathematics-of-Epidemics-on-Networks/blob/4005900b7307a455f5912fb4ec3281a47be0530d/EoN/simulation.py}.
+\newblock [Online; accessed December-2018].
+
+\bibitem{paper_gillespie}
+{Radek Erban, S. Jonathan Chapman, Philip K. MAINI}.
+\newblock A practical guide to stochastic simulations of reaction-diffision
+  processes.
+\newblock https://arxiv.org/pdf/0704.1908.pdf.
+\newblock [Online; accessed 7-December-2018].
+
+\bibitem{wiki:centrality}
+{Wikipedia contributors}.
+\newblock Centrality --- {Wikipedia}{,} the free encyclopedia.
+\newblock
+  \url{https://en.wikipedia.org/w/index.php?title=Centrality&oldid=861906659},
+  2018.
+\newblock [Online; accessed 7-December-2018].
+
+\bibitem{wiki:Gillespie}
+{Wikipedia contributors}.
+\newblock Gillespie algorithm --- {Wikipedia}{,} the free encyclopedia.
+\newblock
+  \url{https://en.wikipedia.org/w/index.php?title=Gillespie_algorithm&oldid=867948442},
+  2018.
+\newblock [Online; accessed 7-December-2018].
+
+\end{thebibliography}
