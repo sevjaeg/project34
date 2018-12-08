@@ -1,7 +1,8 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{geometry}                
-\geometry{letterpaper}                   
+\usepackage{geometry}              
+%\geometry{letterpaper}   
+\geometry{a4paper,left=20mm,right=20mm, top=25mm, bottom=30mm} 
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
@@ -13,29 +14,35 @@
 \usepackage{slashed}
 \usepackage{float}
 \usepackage{bbm}
+\usepackage{hyperref}
 \usepackage{mathtools} % für coloneqq
 \usepackage{caption} % für captions und referenzieren von Gleichungen
+\usepackage{subcaption} % Bilder nebeneinander
 \usepackage{url}
+\usepackage{pdfpages} 
+\usepackage{verbatim}
+
+
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 
 \begin{document}
 
-
 \input{cover}
 \newpage
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
-\section*{Agreement for free-download}
+
+\begin{comment}
+\section*{Agreement for free download}
 \bigskip
 
 
 \bigskip
 
 
-\large We hereby agree to make our source code for this project freely available for download from the web pages of the SOMS chair. Furthermore, we assure that all source code is written by ourselves and is not violating any copyright restrictions.
+\large We hereby agree to make our source code for this project freely available for download from the web pages of the COSS chair. Furthermore, we assure that all source code is written by ourselves and is not violating any copyright restrictions.
 
 \begin{center}
 
@@ -45,28 +52,23 @@
 \bigskip
 
 
-\begin{tabular}{@{}p{3.3cm}@{}p{6cm}@{}@{}p{6cm}@{}}
-\begin{minipage}{3cm}
-
-\end{minipage}
-&
-\begin{minipage}{6cm}
-\vspace{2mm} \large Name 1
-
- \vspace{\baselineskip}
-
-\end{minipage}
-&
-\begin{minipage}{6cm}
-
-\large Name 2
-
-\end{minipage}
-\end{tabular}
-
-
 \end{center}
-\newpage
+\begin{table}[H]
+    \centering
+\begin{tabular}{p{4 cm} p{4 cm} p{4 cm}}
+\\
+     \large{Thomas Hahn}  & \large{Severin Jäger} & \large{Yannick Schubert}
+\end{tabular}
+\end{table}
+
+\end{comment}
+
+\includepdf[pages={1}]{figures/scan0018.pdf}
+
+\includepdf[pages={1}]{figures/scan.pdf}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -78,21 +80,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \abstract
+This paper discusses a very powerful model that classifies the spread of infectious diseases. It provides the tools with which we can predict whether or not a disease will turn into an epidemic. In our work, we are able to show the underlying concept, as well as validate the model experimentally for practically relevant cases. Additionally, we found circumstances, under which the model reaches its limits.
+\bigskip
+
+\bigskip
 
 \setcounter{tocdepth}{2}
 \tableofcontents
 
 \newpage
-
-
-
-
-
 \section{Individual contributions}
-
+Thomas Hahn mainly focuses on the theory behind the model. This includes understanding when the model can potentially fail and why it works otherwise.  Yannick Schubert and Severin Jäger implement the theory and verify results by simulating the time evolution of the SIR model and comparing outcomes.  In addition, they analyze what happens when certain important nodes are infected.
 \section{Introduction and Motivations}
+The social sciences have long tried to predict the time evolution propagation of viruses, ideas, etc.  Obviously, a deep understanding of how and why diseases spread would allow us to better come up with prevention measures.  Their first attempt was to parametrize the disease and analyze the spreading during short time-steps.  The topology of the system, i.e. a structure that describes the connection of any all players (or lack thereof), was completely ignored.  It was just assumed that everyone knew everyone.  More recently, experts in this field have managed to not only create a theory that includes both aspects, but also achieve a decoupling.  This, of course, is by no means trivial.
 
-\section{Description and Proof of the G2-Threshold Theorem}
+We will base our work on the paper 'Threshold Conditions for Arbitrary Cascade Models on Arbitrary Networks" from 2012 \cite{original_paper}. They claim to be the first ones to de-couple the virus propagation model form the topology of the network. There, they define a virus strength as the product of the largest eigenvalue of the connectivity matrix and a constant, which only depends on the virus propagation model.
+
+The G2-Threshold Theorem, which is formulated and proven in the paper, states that there exists a threshold for the effective strength below which a virus dies out quickly. For many “what-if”-scenarios this is already the necessary information. Since there exist very fast algorithms for computing the largest eigenvalue of a matrix, this information can be obtained quickly for an arbitrary virus propagation model and an arbitrary topology.
+
+In this paper, we will investigate whether the G2-Theorem still applies for different initial conditions. Thereto, we will vary the number of initially infected nodes in a network and infect its most important nodes. Additionally, we will figure out, whether virus propagation in very small networks can still be analyzed with this theorem.
+
+\newpage
+
+\section{Description and Proof of the G2-Threshold Theorem} \label{theorem}
 For any given epidemiological model, there are two key components that will describe our system; namely the virus propagation model and the topological constraints of the system.  It will be shown that these two components can in fact be de-coupled and described by two constants.  To fully describe arbitrary systems, some definitions must be introduced. \\
 \underline{Definition:}\\
 The connectivity matrix is a symmetric $n \times n$ matrix, where $n$ is the number of nodes in the system.  If two nodes, $i$ and $j$, are connected, the $(i,j)^{th}$ entry is equal to $1$.  Otherwise it is equal to $0$.  In addition, all diagonal entries are automatically set to $0$.\\
@@ -124,6 +134,7 @@ $(i)$ Susceptible Class:  Elements of this state can be infected by neighboring 
 $(ii)$ Infected Class: Elements in one of the two possible infected classes can spread the infection to susceptible neighbors with a certain probability.  For those wondering why we have two classes instead of one, we need only give the following example.  If infectious state I has a transmissibility parameter $\beta_I>0$  and infectious state E with  $\beta_E=0$, we can elegantly describe scenarios where the disease need not always be contagious.  Elements can enter this class via exogenous transitions (neighbor-dependent) from susceptible states.  Transitions within this class are endogenous.  \\
 $(iii)$ Vigilant Class:  Elements of these states can neither infect, nor be infected.  This class can be used to describe dead, vaccinated, and/or recovered nodes (only in models, where recovered patients are no longer susceptible).  Once again, there can be $m \geq 0$ possible states in this class.  Elements can enter this class via endogenous transitions from all other states. 
 Transitions within this class are also endogenous. \\
+%\newpage
 \underline{Assumptions:}\\
 We will be making two assumptions, which not only simplify calculations, but are rather intuitive.  \\
 $(i)$ The infection can only be spread from node $i$ to node $j$ if $A_{i,j}=1$. In essence, this means that the infection can only be spread via neighbors. \\
@@ -142,9 +153,10 @@ We start by defining a vector $\textbf{P}_t$ that will describe the system at ti
  \bold{P}_{t+1} =  \bold{P}_t.
   \end{eqnarray}
   At these points, one can calculate the stability, i.e. will we return to this fixed point under small perturbations or not, by analyzing the spectrum of the Jacobi matrix at these locations.  We will in essence calculate the stability of systems, where no nodes are infected.  As we will see, the constraints for the spectrum of the Jacobian will allow us to decouple the topology from the VPM and deliver the desired result.
+  \newpage
 \subsection{Proof}
 \label{proof}
-To make the proof more readable, we shall introduce additional notation \\
+To make the proof more readable, we shall introduce additional notation.
 \subsubsection{Notation}
 $(i)$ $m$ denotes the total number of states in the VPM. \\
 $(ii)$ $q$ denotes the total number of states in both the Susceptible, as well as the Vigilant class.  This means that $m=q+2$. \\
@@ -181,7 +193,7 @@ $(i)$ The node was already an element of the state $S_y$ and stayed there. \\
 $(ii)$ The node was in a different state $U$ and transitioned into that state during our time step.  This transition must of course be internal (See Terminology). \\
 We can now use this information to attain the following result:
 \begin{eqnarray}
-\forall y=1,2,...,w: P_{S_{y},i,t+1} = \sum_{K \neq S_y} \alpha_{KS_{y}} P_{K,i,t}+ P_{S_{y},i,t} \left( \zeta_{i,t} (E,I) - \sum_{K \neq E, S_{y} ,I} \alpha_{S_y,K}  \right)
+\forall y=1,2,...,w: P_{S_{y},i,t+1} = \sum_{K \neq S_y} \alpha_{KS_{y}} P_{K,i,t}+ P_{S_{y},i,t} \left( \zeta_{i,t} (E,I) - \sum_{K \neq E, S_{y} ,I} \alpha_{S_y,K}  \right)  \label{eq: 9}
 \end{eqnarray}
 The term $\alpha_{KE} P_{K,i,t}$ denotes all the transitions from other susceptible state to $S_y$, whereas the second term gives us the probability that the element in $S_y$ stays in $S_y$.  Through analogous reasoning we attain similar results for elements in state $E$ at time $t+1$
 \begin{eqnarray}
@@ -189,9 +201,9 @@ P_{E,i,t+1} = \sum_{K \neq S_1,...S_w} \alpha_{KE} P_{K,i,t}+ \sum_{y= 1}^w P_{S
 \end{eqnarray}
 as well as for all other states $U \neq \{ S_1,...,S_w,E \}$ at time t+1
 \begin{eqnarray}
-P_{U,i,t+1} = \sum_{K} \alpha_{KU}  P_{K,i,t}.
+P_{U,i,t+1} = \sum_{K} \alpha_{KU}  P_{K,i,t}. \label{eq: 11}
 \end{eqnarray}
-Equations (9) to (11) now define $g$, which is what we wanted.\\
+Equations (\ref{eq: 9}) to (\ref{eq: 11}) now define $g$, which is what we wanted.\\
 We will now need a theorem, which will not be proven (e.g. see \cite{Stability}). \\
   \underline{Asymptotic Stability Theorem:}\\
   A system that is determined by $\bold{P}_{t+1} = g(\bold{P}_t)$ is asymptotically stable at some fixed point $\bold{P} = \bold{x}$, if the absolute value of all eigenvalues of the the Jacobian $\mathcal{J} = \nabla g(\bold{x})$ are less than one.  The entries of the Jacobian matrix are given by 
@@ -216,7 +228,9 @@ p_S^\star = \sum_{y=1}^w p_{S_{y}}^\star .
 \end{eqnarray}
 This can be interpreted as the probability of any given node $i$ being in the Susceptible class.
  \subsubsection{Deriving the Jacobian}
- Here, we rely on equations $(9)$ to $(11)$ to express $g$ and then take all of the partial derivatives.  As all of our $n$ nodes can be elements of $m$ possible states, we expect our Jacobian matrix to be of the form $(m \times n) \times (m \times n)$.  By plugging in the values, we get the following results:\\
+ Here, we rely on equations (\ref{eq: 9}) to (\ref{eq: 11}) to express $g$ and then take all of the partial derivatives.  As all of our $n$ nodes can be elements of $m$ possible states, we expect our Jacobian matrix to be of the form $(m \cdot n) \times (m \cdot n)$.  By plugging in the values, we get the following results:\\
+ \begin{table}[H]
+     \centering
 \begin{tabular}{c|c|c|c|c|c}
      & $S_y$ & K & $\cdots$ & E & I   \\
      \hline
@@ -232,11 +246,18 @@ This can be interpreted as the probability of any given node $i$ being in the Su
      \hline
      I & $\alpha_{S_yI}\mathbbm{1}$ & $\alpha_{KI}\mathbbm{1}$ & $\cdots$ & $\alpha_{EI}\mathbbm{1}$ & $\alpha_{II}\mathbbm{1}$
 \end{tabular}\\
+\captionsetup{width = 0.8\textwidth}
+     \caption{Denotes the Components of The Jacobian. The first row and columns represent the states}
+     \label{tab: Jacobian 1}
+ \end{table}
+
  Here, the state $K$ denotes all states not equal to $E$ or $I$, whereas $U \neq \left\lbrace S_1,...,S_w,E,I \right\rbrace$.  We shall now recall one of our previous assumptions, namely that there can be no endogenous transitions into the Infected class.  Mathematically speaking this means
  \begin{eqnarray}
- \forall K \neq E,I : \alpha_{KE} = \alpha_{KI} = 0
+ \forall K \neq E,I : \alpha_{KE} = \alpha_{KI} = 0 \label{eq: 17}
  \end{eqnarray}
  This, of course simplifies our Jacobian, which is reduced to \\
+\begin{table}[H]
+    \centering
 \begin{tabular}{c|c|c|c|c|c}
      & $S_y$ & K & $\cdots$ & E & I   \\
      \hline
@@ -251,10 +272,15 @@ This can be interpreted as the probability of any given node $i$ being in the Su
      E & $\textbf{0}_{N\times N}$ & $\textbf{0}_{N\times N}$ & $\cdots$ & $\alpha_{EE}\mathbbm{1}+p_S^*\beta_1\mathbbm{A}$ & $\alpha_{IE}\mathbbm{1}+p_S^*\beta_2\mathbbm{A}$\\
      \hline
      I & $\textbf{0}_{N\times N}$ & $\textbf{0}_{N\times N}$ & $\cdots$ & $\alpha_{EI}\mathbbm{1}$ & $\alpha_{II}\mathbbm{1}$
-\end{tabular}\\
+\end{tabular}
+    \label{tab: Jacobian 2}
+\captionsetup{width = 0.8\textwidth}
+    \caption{Here we set the constants of equation (\ref{eq: 17}) to $0$}
+\end{table}
+
  Now that we have attained our matrix, we must calculate all of its eigenvalues.
  \subsubsection{Calculating the Eigenvalues of our Jacobian}
-As we can see in $(19)$, the Jacobian is of the form
+As we can see in Table $2$, the Jacobian is of the form
  \begin{eqnarray}
   \mathcal{J}=
   \left( {\begin{array}{cc}
@@ -276,13 +302,13 @@ Since   $\bold{v}$ is an eigenvector, we know that
     \bold{v}_1 \\
  \bold{v}_2 \\
   \end{array} } \right) = \lambda_ \mathcal{J} \left( {\begin{array}{c} 
-    \bold{v}_1 \\
+    \bold{v}_1 \\\
  \bold{v}_2 \\
-  \end{array} } \right) .
+  \end{array} } \right). \label{eq: 20}
  \end{eqnarray}
  This, in turn, can be written as 
    \begin{eqnarray}
-   \bold{B}_1   \bold{v}_1 +    \bold{B}_2   \bold{v}_2 &=& \lambda_ \mathcal{J}  \bold{v}_1 \\
+   \bold{B}_1   \bold{v}_1 +    \bold{B}_2   \bold{v}_2 &=& \lambda_ \mathcal{J}  \bold{v}_1\label{eq: 21} \\
 \bold{B}_3   \bold{v}_2 &=& \lambda_ \mathcal{J}  \bold{v}_2 ,
   \end{eqnarray}
   which tells us that one of the following must be true: \\
@@ -290,14 +316,14 @@ Since   $\bold{v}$ is an eigenvector, we know that
   $(ii)$ $ \bold{v}_2$ can be thought of as an eigenvector of $\bold{B}_3$ with eigenvalue $\lambda_ \mathcal{J}$ \\
 We shall now examine both cases.
 \subsubsection{Case (i)}
-  Scenario $(i)$ simplifies equation $(23)$ considerably, as the second term is dropped and we left with 
+  Scenario $(i)$ simplifies equation (\ref{eq: 21}) considerably, as the second term is dropped and we left with 
 \begin{eqnarray}
  \bold{B}_1   \bold{v}_1 = \lambda_ \mathcal{J}  \bold{v}_1 ,
 \end{eqnarray}
 which then again again implies one of the following: \\
   $(i)$ $ \bold{v}_1=0$ \\
   $(ii)$ $ \bold{v}_1$ is an eigenvector \\
-  Since $\bold{v}_2=0$ by assumption, $ \bold{v}_1=0$ would yield a zero vector as the solution to $(22)$, which is not a very interesting outcome (as $ \bold{v}=0 $ would not be considered an eigenvector).  We can therefore consider  $ \bold{v}_1$ to be an eigenvector of $\bold{B}_1$.  \\
+  Since $\bold{v}_2=0$ by assumption, $ \bold{v}_1=0$ would yield a zero vector as the solution to equation (\ref{eq: 20}), which is not a very interesting outcome (as $ \bold{v}=0 $ would not be considered an eigenvector).  We can therefore consider  $ \bold{v}_1$ to be an eigenvector of $\bold{B}_1$.  \\
   \underline{Definition:}
   For two arbitrary matrices $A$ and $B$, where $A$ and $B$ are of the form $m \times n$ and $r \times s$, respectively, the Kronecker product $A \otimes B$ is defined as
   \begin{eqnarray}
@@ -323,7 +349,7 @@ which then again again implies one of the following: \\
   \end{eqnarray}
   It can be shown that if $A=B \otimes C$, $A_{diag} = B_{diag} \otimes C_{diag}$. This means that if we diagonalize $A$, we have diagonalized $B$ and $C$ as well.  Now, since in our case $C$ is the identity, $\bold{T}$ will have the same eigenvalues as $\bold{B}_1$.  We shall now analyze case $(ii)$.
   \subsubsection{Case (ii)}
-  Here, we know that $\bold{v}_2$ is an eigenvector of $\bold{B}_3$.  From $(19)$ it follows that 
+  Here, we know that $\bold{v}_2$ is an eigenvector of $\bold{B}_3$.  From Table $2$ it follows that 
   \begin{eqnarray}
 \bold{B}_3 =   \left( {\begin{array}{cc}
   \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} &\alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A}\\
@@ -332,46 +358,47 @@ which then again again implies one of the following: \\
   \end{eqnarray}
   For pragmatic reasons, we shall split $\bold{v}_2$ into to components, $\bold{u}_1$ and $\bold{u}_2$, such that both are vectors of length $n$.  Since $\bold{v}_2$ is an eigenvector with eigenvalue $\lambda_ \mathcal{J}$, we know that the two components satisfy:
   \begin{eqnarray}
-  \left(  \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} \right) \bold{u}_1 + \left( \alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A} \right)  \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_1 \\ 
-   \alpha_{E1} \bold{u}_1 +    \alpha_{II} \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_2 
+  \left(  \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} \right) \bold{u}_1 + \left( \alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A} \right)  \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_1 \label{eq: 28}\\ 
+   \alpha_{E1} \bold{u}_1 +    \alpha_{II} \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_2 \label{eq: 29}
   \end{eqnarray}
-  Equation $(31)$ tells us that 
+  Equation (\ref{eq: 29}) tells us that 
   \begin{equation}
   \bold{u}_1 = \left( \frac{\lambda_ \mathcal{J} -\alpha_{II}}{\alpha_{EI}} \right)  \bold{u}_2 ,
   \end{equation}
-  which can be plugged into $(30)$ to get:
+  which can be plugged into (\ref{eq: 28}) to get:
   \begin{eqnarray}
-  \left( \left( \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} \right) \left( \frac{\lambda_ \mathcal{J} -\alpha_{II}}{\alpha_{EI}} \right)  + \left( \alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A} \right) \right)  \bold{u}_2 = \lambda_ \mathcal{J} \left( \frac{\lambda_ \mathcal{J} -\alpha_{II}}{\alpha_{EI}} \right)  \bold{u}_2 
+  \left( \left( \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} \right) \left( \frac{\lambda_ \mathcal{J} -\alpha_{II}}{\alpha_{EI}} \right)  + \left( \alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A} \right) \right)  \bold{u}_2 = \lambda_ \mathcal{J} \left( \frac{\lambda_ \mathcal{J} -\alpha_{II}}{\alpha_{EI}} \right)  \bold{u}_2 \label{eq: 31}
   \end{eqnarray} 
   We can now reorder the equation such that we end up with:
   \begin{eqnarray}
-  \bold{A} \bold{u}_2 = \left( \frac{\lambda_ \mathcal{J}^2 - \left(\alpha_{II} + \alpha_{EE} \right)  \lambda_ \mathcal{J} + \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}}{p_S^{\star} \beta_1 \left(\lambda_ \mathcal{J} -\alpha_{II} \right) + p_S^{\star} \beta_2 \alpha_{EI}  } \right)  \bold{u}_2 
+  \bold{A} \bold{u}_2 = \left( \frac{\lambda_ \mathcal{J}^2 - \left(\alpha_{II} + \alpha_{EE} \right)  \lambda_ \mathcal{J} + \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}}{p_S^{\star} \beta_1 \left(\lambda_ \mathcal{J} -\alpha_{II} \right) + p_S^{\star} \beta_2 \alpha_{EI}  } \right)  \bold{u}_2 \label{eq: 32}
   \end{eqnarray}
-  Since we know that $ \bold{u}_2  \neq 0$ (otherwise $ \bold{u}_1 =0$ and $ \bold{v} = 0$),  $ \bold{u}_2 $ is an eigenvector of the adjacency matrix. As we can see in $(34)$, the eigenvalue is dependent on many parameters.  To simplify matters, we shall call the eigenvalue $\lambda_{\bold{A}}$.  We can now replace $\bold{A}$ with its eigenvalue in equation $(33)$, so that it can be rewritten as:
+  Since we know that $ \bold{u}_2  \neq 0$ (otherwise $ \bold{u}_1 =0$ and $ \bold{v} = 0$),  $ \bold{u}_2 $ is an eigenvector of the adjacency matrix. As we can see in (\ref{eq: 32}), the eigenvalue is dependent on many parameters.  To simplify matters, we shall call the eigenvalue $\lambda_{\bold{A}}$.  We can now replace $\bold{A}$ with its eigenvalue in equation (\ref{eq: 31}), so that it can be rewritten as:
   \begin{eqnarray}
   \lambda_ \mathcal{J}^2  -\lambda_ \mathcal{J} \left(\alpha_{II} + \alpha_{EE} +p_S^{\star} \beta_1 \lambda_{\bold{A}} \right) + \left( \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}
-+  p_S^{\star} \lambda_{\bold{A}} \left( \beta_1 \alpha_{II} - \beta_2 \alpha_{EI} \right) \right) =0
++  p_S^{\star} \lambda_{\bold{A}} \left( \beta_1 \alpha_{II} - \beta_2 \alpha_{EI} \right) \right) =0 \label{eq: 33}
 \end{eqnarray}
 We've now found a quadratic equation that will give us two (possibly different) eigenvalues for  $\mathcal{J}$ as a function of eigenvalues of $\bold{A}$.  The calculations done in this chapter thusly show that the following lemma holds: \\
 \underline{Lemma:} \\
-The eigenvalues of $\mathcal{J}$ are either acquired via the matrix $\bold{T}$ or by solving the quadratic equation $(35)$, whose roots are dependent in the eigenvalues of $\bold{A}$.
+The eigenvalues of $\mathcal{J}$ are either acquired via the matrix $\bold{T}$ or by solving the quadratic equation (\ref{eq: 33}), whose roots are dependent in the eigenvalues of $\bold{A}$.
 \subsubsection{Stability Requirements}
 The asymptotic stability theorem requires that all eigenvalues of $\mathcal{J}$ have an absolute value less than $1$.  We can now use the previous subsections to find out when this is true.  The previous lemma states that one of the following two conditions must hold: \\
 $(i)$ The eigenvalues of $\bold{T}$ must all have an absolute value less then $1$. \\
-$(ii)$ The solutions of the quadratic equation given by $(35)$ must all have an absolute value less than $1$(for all eigenvalues of $\bold{A}$). \\
+$(ii)$ The solutions of the quadratic equation given by (\ref{eq: 33}) must all have an absolute value less than $1$(for all eigenvalues of $\bold{A}$). \\
 Let's first analyze scenario $(1)$.
 \subsubsection{Case $(i)$}
 Now this is quite simple.  Since $\bold{T}$ is a stochastic matrix ( This means that summing over the values in each column will always return the value $1$), it can only have eigenvalues whose absolute value are less than $1$.  Our requirements are therefore automatically fulfilled.  It should be noted that $\bold{T}$ does not depend on $\bold{A}$.
 \subsubsection{Case $(ii)$}
 In this case, we must find the conditions for which our eigenvalues have an absolute value less than $1$.  To do this, we will prove the following lemma: \\
  \underline{Lemma:}  \\
- The solutions of the quadratic equations, which are given by $(35)$ for all eigenvalues of $\bold{A}$, have an absolute value less than $1$ if the following inequality holds:
+ The solutions of the quadratic equations, which are given by (\ref{eq: 33}) for all eigenvalues of $\bold{A}$, have an absolute value less than $1$ if the following inequality holds:
  \begin{eqnarray}
- \lambda_1 p_S^{\star} \left( \frac{c \left( 1- \alpha_{II}\right) + \beta_2 \alpha_{EI}}{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right) - \alpha_{IE}  \alpha_{E1}} \right),
+ \lambda_1 p_S^{\star} \left( \frac{\beta_1 \left( 1- \alpha_{II}\right) + \beta_2 \alpha_{EI}}{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right) - \alpha_{IE}  \alpha_{E1}} \right) < 1,
  \end{eqnarray}
+ 
 where $\lambda_1$ is the largest eigenvalue of $\bold{A}$. \\
  \underline{Proof:}  \\
- We define $r_1$ and $r_2$ to be the solutions of equation $(35)$ for a given $\lambda_{\bold{A}}$.  We obviously want that
+ We define $r_1$ and $r_2$ to be the solutions of equation (\ref{eq: 33}) for a given $\lambda_{\bold{A}}$.  We obviously want that
  \begin{eqnarray}
  |r_1| < 1 \  \& \ |r_1| < 1 .
  \end{eqnarray}
@@ -390,16 +417,16 @@ But for our quadratic equation, this means that:
 \end{eqnarray}
 We can now rewrite the last two equations to get
 \begin{eqnarray}
- \lambda_{\bold{A}}  p_S^{\star} \left( \frac{-\beta_1 \left( 1+\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1+ \alpha_{II}\right) \left( 1+ \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) &<& 1 \\
-  \lambda_{\bold{A}}  p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) &<& 1 .
+ \lambda_{\bold{A}}  p_S^{\star} \left( \frac{-\beta_1 \left( 1+\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1+ \alpha_{II}\right) \left( 1+ \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) &<& 1 \label{eq: 42}\\
+  \lambda_{\bold{A}}  p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) &<& 1 . \label{eq: 43}
 \end{eqnarray}
-This should hold for all eigenvalues of $\bold{A}$.  Since $\bold{A}$ is a symmetric real-valued matrix, it must be diagonalizable with real eigenvalues.  Additionally, we can use the Perron-Frobenius theorem, which states that the algebraically largest eigenvalue $\lambda_1$ must not only be a positive number, but must also have the largest magnitude(in comparison to all the other eigenvalues).This tells us that if equations $(44)$ and $(45)$ are valid for $ \lambda_{\bold{A}}=\lambda_1$, they must be valid for all other eigenvalues as well.  We also know that the following two inequalities have to hold:
+This should hold for all eigenvalues of $\bold{A}$.  Since $\bold{A}$ is a symmetric real-valued matrix, it must be diagonalizable with real eigenvalues.  Additionally, we can use the Perron-Frobenius theorem, which states that the algebraically largest eigenvalue $\lambda_1$ must not only be a positive number, but must also have the largest magnitude (in comparison to all the other eigenvalues). This tells us that if equations (\ref{eq: 42}) and (\ref{eq: 43}) are valid for $ \lambda_{\bold{A}}=\lambda_1$, they must be valid for all other eigenvalues as well.  We also know that the following two inequalities have to hold:
 \begin{eqnarray}
 \left( 1+ \alpha_{II}\right) \left( 1+ \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1} &>& 
 \left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1} \\
 \beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} &>& -\beta_1 \left( 1+\alpha_{II} \right) + \beta_1 \alpha_{EI}
 \end{eqnarray}
-These follow from the fact that all the parameters must be positive and less than or equal to $1$.  With these two inequalities, it should be clear that if $(45)$ holds, $(44)$ must hold as well.  We can thus conclude, that if the roots of the quadratic equation are real
+These follow from the fact that all the parameters must be positive and less than or equal to $1$.  With these two inequalities, it should be clear that if (\ref{eq: 43}) holds, (\ref{eq: 42}) must hold as well.  We can thus conclude, that if the roots of the quadratic equation are real
 \begin{eqnarray}
  \lambda_{1}  p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) < 1 .
 \end{eqnarray}
@@ -408,7 +435,7 @@ must hold to attain values between $(-1,1)$.  On the other hand, if we allow for
 \left( \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}
 +  p_S^{\star} \lambda_{\bold{A}} \left( \beta_1 \alpha_{II} - \beta_2 \alpha_{EI} \right) \right) <1
 \end{eqnarray}
-By rearranging the equation though, it turns out that this gives us equation $(44)$.  We already know though, that $(44)$ is implied by $(45)$.  Thus, if the condition given by $(45)$ is fulfilled, the roots must have an absolute value of less than $1$.
+By rearranging the equation though, it turns out that this gives us equation (\ref{eq: 42}).  We already know though, that (\ref{eq: 42}) is implied by (\ref{eq: 43}).  Thus, if the condition given by (\ref{eq: 43}) is fulfilled, the roots must have an absolute value of less than $1$.
 \subsubsection{Finalizing the Result}
 We have finally shown that our fixed point is stable if
 \begin{eqnarray}
@@ -425,8 +452,8 @@ Our aim is to reproduce the model as well as to push it towards its boundaries a
 During the course of this chapter, we will analyze the time evolution of the propagating virus.  To do this, we consider the fraction of infected people and the threshold condition for an outbreak of an epidemic in the SIR model shown in Figure 5. \\
 The SIR model states that individuals can either be susceptible for the disease (S), infected (I) or recovered (R). The only two possible events are the following: 
 \begin{enumerate}
-\item[(a)] An infected node infects a susceptible neighbour 
-\item[(b)] An infected node gets recovered
+\item[(i)] An infected node infects a susceptible neighbour 
+\item[(ii)] An infected node gets recovered
 \end{enumerate}
 Hereinafter we will call the set of susceptible nodes that have at least one infected neighbor "at\_risk\_nodes". 
 The model is entirely described by the transmission probability over a contact-link $\beta$ and the healing probability once infected $\delta$. The parameter $\beta$ is defined such that the probability that (a) happens in the infinitesimal time interval $[t, t+dt)$ is given by $\beta dt$. Analogously the probability that an infected node at time $t$ gets healed (event (b)) within the time interval $[t,t+dt)$ is $\delta dt$. Therefore the probability that exactly one event happens in the time interval $[t,t+dt)$ is given by 
@@ -463,11 +490,14 @@ Now we want to calculate $g(\text{total\_rate}(t), \sigma )$ for all $\sigma>0$.
 \frac{dg(\text{total\_rate}(t), \sigma)}{d\sigma} &= \lim\limits_{d\sigma\to0}\frac{g(\text{total\_rate}(t),\sigma+d\sigma)-g(\text{total\_rate}(t),\sigma)}{d\sigma}\\
 &=-\text{total\_rate}(t)\times g(\text{total\_rate}(t),\sigma)
 \end{align*}
-With the initial condition that $g(\text{total\_rate}(t), 0)=1$, we obtain the unique solution $g(\text{total\_rate}(t), \sigma)=\exp[-\text{total\_rate}(t)\times\sigma]$. From this we know that $f(\text{total\_rate}(t), s)ds\overset{(\ref{f})} = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$, such that the next event happens at the time $t+\tau$, is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
-A Pseudocode for the Gillespie algorithm, which can be used to with the SIR model, is shown in Figure \ref{figure: Gillespie-pseudo}.\\
-\begin{figure}
+With the initial condition that $g(\text{total\_rate}(t), 0)=1$, we obtain the unique solution $g(\text{total\_rate}(t), \sigma)=\exp[-\text{total\_rate}(t)\times\sigma]$. From this we know that \\
+$f(\text{total\_rate}(t), s)ds = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$, such that the next event happens at the time $t+\tau$, is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
+A Pseudocode for the Gillespie algorithm, which can be used to with the SIR model, is shown in figure \ref{figure: Gillespie-pseudo}.\\
+
+\begin{figure} [H]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/algorithm}
+\includegraphics[width=0.75\textwidth]{figures/pseudocode}
+\captionsetup{width = 0.75\textwidth}
 \caption{Pseudocode for the Gillespie algorithm simulating an SIR epidemic in a network \cite{Math_on_ep}}
 \label{figure: Gillespie-pseudo}
 \end{figure}
@@ -477,8 +507,8 @@ Assuming all states of the system are known for a time $t_0$, the algorithm perf
 \item Compute the time $t+\tau$ at which the next event will happen. Therefore the random number $\tau$ exponentially distributed according to $f(s) = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)$ is generated
 \item  Compute which event will happen
 \begin{itemize}
-\item[(a)] If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered" and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
-\item[(b)] Else: Choose $u$ from at\_risk\_nodes with probability \\
+\item[(i)] If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered" and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
+\item[(ii)] Else: Choose $u$ from at\_risk\_nodes with probability \\
 $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infection\_rate}}$, remove it from the at\_risk\_nodes, set its state to infected and add its neighbors to at\_risk\_nodes
 \end{itemize}
 \item Update all rates and start over again with 1. for the time $t+\tau$
@@ -486,46 +516,109 @@ $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infec
 \subsection{Centrality Measures for Initial Infections}
 \label{centrality}
 In order to initially infect the most important nodes we use the mathematical concept of centrality. There exist several different centrality measures, however, for our purposes the concept of eigenvector centrality turned out to be suitable.
-The vector of the eigenvector centralities x of all nodes in a network is defined via
+The vector of the eigenvector centralities $x$ of all nodes in a network is defined via
 \begin{equation}
 \bold{A}x=\lambda x
 \end{equation}
-where A denotes the networks’ adjacency matrix and lambda denotes the largest eigenvalue of A, which is real and positive by the Perron-Frobenius theorem. Hence, x is the eigenvector of the spectral radius of A. \cite{wiki:centrality}
+where $\mathbf{A}$ denotes the networks’ adjacency matrix and $\lambda$ denotes the largest eigenvalue of $\mathbf{A}$, which is real and positive by the Perron-Frobenius theorem. Hence, $x$ is the eigenvector belonging to the spectral radius of $\mathbf{A}$. \cite{wiki:centrality}
 \subsection{Implementation}
-For our simulations we used an implementation of the Gillespie algorithm from \cite{Math_on_ep} as well as Python functions enabling us to plot the time behaviour of the infection and the footprint of the infection depending on the effective strength. Our Code uses the libraries scipy, matplotlib, networkX and EoN.
+To simulate the infections, we used an implementation of the Gillespie algorithm from \cite{Code-Gillespie}, as well as Python functions, which enable us to plot the time behaviour of the infection. In addition we computed the footprint of the infection as a function of the effective strength. Our Code uses the libraries scipy, matplotlib, networkX, and EoN.
 \subsubsection*{Data sets}
+For the experiments described in the following section, we use the following data sets.
 \begin{enumerate}
-\item[i] AS-OREGON: Internet connection data collected by University of Oregon Route Views Project
-\item[ii] FACEBOOK-EGO: Data from a survey on facebook app usage
-\item[iii] TERRORISTS:
+\item[(i)] AS-OREGON: Internet connection data from January 2, 2000 collected by University of Oregon Route Views Project \cite{as-oregon}. $6474$ nodes, $13895$ edges, spectral radius $46.9$.
+\item[(ii)] FACEBOOK-EGO: Data from a survey on Facebook app usage \cite{facebook-ego}. $4039$ nodes, $88234$ edges, spectral radius $162.4$.
+\item[(iii)] TERRORIST: Social associations between the terrorists involved in the 9/11 attacks \cite{terrorists}. $62$ nodes, $304$ edges, spectral radius $8.7$.
 \end{enumerate}
 \subsection{Simulation Results and Discussion}
-This section closely follows the full test provided in the code section of the GIT repository belonging to this paper. All the calculations were conducted on an ordinary personal computer using unmodified Python 3.7. For the plots we ran at least 200 independent simulations each and plotted their arithmetic mean.
+For our experiments, we conducted computer simulations using Python 3.7. To create meaningful plots, we ran at least $200$ independent simulations per figure and plotted their arithmetic mean.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/fig1a_time_rnd.png}
+
+\caption{}
+\end{subfigure}
+%
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/fig1b_time_crucial.png}
+\caption{}
+\end{subfigure}
+\captionsetup{width = 0.75\textwidth}
+\caption{Time behaviour of the SIR simulations for random \textbf{(a)} and critical \textbf{(b)} initial infection on the AS-OREGON network.}
+\label{figure: fig1}
+\end{figure}
 \subsubsection*{Reproduction of previous work}
-To reproduce the work in \cite{original_paper} we used the AS-OREGON data set, which is similar to one of the data sets in their experiments. Initially we infected 10 random nodes and investigated the time behaviour of the SIR simulation, which is shown in figure \textbf{(1a)}. The result matches the expectations, as s-Values greater 1 lead to a significant increase of infected nodes while under-critical infections ($s < 1$) die out quickly. This behaviour is confirmed by figure \textbf{(2)}, which supports the assumption, the tipping point is around 1.
+To reproduce the work in \cite{original_paper}, we used the AS-OREGON data set, which is similar to one of the data sets in their experiments. Initially we infected $10$ random nodes and investigated the time behaviour of the SIR simulation, which is shown in figure \ref{figure: fig1}a. The result matches the expectations, as s-Values greater $1$ lead to a significant increase of infected nodes, while under-critical infections ($s < 1$) die out quickly. This behavior is confirmed by the simulation results shown in figure \ref{figure: fig2}, which support the assumption that the tipping point is at $s=1$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig2_tip_rnd.png}
+\captionsetup{width = 0.75\textwidth}
+\caption{Infection footprint for different SIR virus strengths on the AS-OREGON network.}
+\label{figure: fig2}
+\end{figure}
+
 \subsubsection*{Initial infection size}
-As we were able to reproduce the results from \cite{original_paper}, we investigated the influence of the size of the initially infected population. So, we ran the same simulation as beforehand with different numbers of randomly selected nodes infected in the beginning. The result is shown in figure \textbf{(3a)}, which suggests, that the model is still valid, even for a notable size of initially infected nodes. However, the tipping point slightly moved to the left with increasing number of initial infections.
+As we were able to reproduce the results from \cite{original_paper}, we investigated the influence of the size of the initially infected population. We therefore ran the same simulation from before, but randomly altered the initial number of infected nodes. The result is shown in figure \ref{figure: fig3}a, which suggests, that the model is still valid, even for notable sizes of initially infected nodes. However, the tipping point slightly moved to the left with increasing numbers of initial infections.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/fig3a_tip_rnd_init.png}
+
+\caption{}
+\end{subfigure}
+%
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/fig3b_tip_crit_init.png}
+\caption{}
+\end{subfigure}
+\captionsetup{width = 0.75\textwidth}
+\caption{SIR infection footprint for different sizes of the random \textbf{(a)} and critical \textbf{(b)} initial infection on the AS-OREGON network.}
+\label{figure: fig3}
+\end{figure}
+
 \subsubsection*{Infection of important nodes}
-In the next step, we initially infected the nodes with the highest eigenvector centrality (see section \ref{centrality}). As expected, this is beneficial to the spreading of the virus. Figure \textbf{(4)} compares the footprint of random infection with critical node infection and depicts, that the initial infection of the nodes with the highest eigenvalue centrality has a tipping point moved to the left, even slightly beyond 1. Hence, infection of critical nodes brings the model already close to its border.
+In the next step, we initially infected the nodes with the highest eigenvector centrality (see section \ref{centrality}). As expected, this is beneficial to the spreading of the virus. Figure \ref{figure: fig4} compares the footprint of random infection with critical node infection. We can clearly see that the initial infection of the nodes with the highest eigenvalue centrality moves the tipping point slightly to the left of $1$. Hence, infection of critical nodes brings the model already close to its limit. This fits the time behavior of the system, which is shown in figure \ref{figure: fig1}b, where the below-critical infections spread slightly before dying out. 
 
-Additionally, we conducted experiments with larger numbers of critical initial infection. The results, shown in figure \textbf{(3b)}, indicate again that initial infection of the nodes with the highest centrality leads to a tipping point very close to 1, particularly for larger numbers of initially infected nodes. However, the model can still be considered valid, as the footprint for effective strengths below 1 remains very close to the initial infection. This meets, due to the generality of the proof (see section \ref{proof}), our expectations.
+Additionally, we conducted experiments with larger numbers of critical initial infections. The results are shown in figure \ref{figure: fig3}b and again indicate that by initially infecting nodes with the highest centrality, we create a tipping point very close to $1$, particularly for larger numbers of initially infected nodes. However, the model can still be considered valid, as the footprint for effective strengths below $1$ remains very close to the initial infection. This meets, due to the generality of the proof (see section \ref{proof}), our expectations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig4_rnd_vs_crit.png}
+\captionsetup{width = 0.75\textwidth}
+\caption{Infection footprint for different SIR virus strengths for random (blue) and critical (orange) initial infection on the AS-OREGON network.}
+\label{figure: fig4}
+\end{figure}
+
+
 \subsubsection*{Verification with highly connected network}
-To verify the results of the previous section, we ran the very same simulation on a different network. We used the FACEBOOK-EGO network, which has a slightly smaller number of nodes, but nevertheless a larger spectral radius and therefore a higher density of connections, and were able to reproduce all the outcomes from the AS-OREGON network. As expected, the model is also valid for all our test cases on this network.
-\subsubsection*{Behaviour of small networks}
-As the behavior for very large graphs was already investigated in \cite{original_paper} using the PORTLAND graph with 1.6 million nodes, we were interested if the model also applicable for small networks. Hence, we ran simulations on the TERRORISTS network with 62 nodes and a high density of connections. We again infected the nodes with the highest eigenvector centrality. Figure \textbf{(5)} shows the results for different sizes of the initial infection. Now the tipping point is, especially for larger numbers of initially infected nodes, below one. This is interesting, as for the larger networks even higher rates of initially infected nodes led to no disease spreading. Hence, we draw the conclusion that the model is not generally valid for small networks.
+To verify the results of the previous section, we ran the same simulation on a different network. We used the FACEBOOK-EGO network, which has a slightly smaller number of nodes, but nevertheless a larger spectral radius and therefore a higher density of connections. For this data set we were able to reproduce all the outcomes from the AS-OREGON network. As expected, the model is also valid for all our test cases on this network.
+\subsubsection*{Behavior of small networks}
+As the behavior for very large graphs was already investigated in \cite{original_paper}, we were interested if the model is also applicable for small networks. We therefore ran simulations on the TERRORIST network with $62$ nodes and a high density of connections. We again infected the nodes with the highest eigenvector centrality. Figure \ref{figure: fig5} shows the results for different sizes of the initial infection. Now the tipping point is, especially for larger numbers of initially infected nodes, below one. This is interesting, as for the larger networks even higher ratios of initially infected nodes led to no disease spreading. Hence, we draw the conclusion that the model is not generally valid for small networks.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig5_terror.png}
+\captionsetup{width = 0.75\textwidth}
+\caption{Infection footprint for different numbers of initially infected nodes on the TERRORIST network.}
+\label{figure: fig5}
+\end{figure}
+
 \section{Summary and Outlook}
+In \autoref{theorem}, we saw that the G2 theorem is a powerful tool, as it creates a simple condition for analyzing VPMs on arbitrary networks and is almost always applicable (This is because the assumptions were reasonable and therefore do not really count as constraints). We clearly saw the vast scope of its utility in our experimental results. Only for small networks did we observed scenarios where the tipping point was off.
 
+However, our experiments were limited to the SIR virus propagation model. It could very well be that more sophisticated VPMs may lead to different results, in which case the G2 theorem would cease to hold.
 
+Another thing that has to be kept in mind is the fact the results are averages over many runs. We saw that particular simulations were strongly deviated from the mean. By taking the average over many peaks that do not align, the resulting curve will have a lower, wider peak which does not resemble a single realization \cite{paper_gillespie}.
+
+Nevertheless, the G2-threshold theorem has shown to be very robust and reliable for the SIR model and there is no reason to suspect that this would be any different for other prevalent virus propagation models.
 \bibliographystyle{plain}
 \bibliography{bibfile}
 
 
 
 
-
-
-\end{document}  
-
-
-
+\end{document}
  
