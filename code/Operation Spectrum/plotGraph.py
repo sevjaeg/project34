@@ -13,7 +13,5 @@ def plotFromMatrix(A):
 
 def plotFromGraph(G):
     """Plots a graph described as networkx graph object"""
-
-    plt.figure(plotFromGraph.counter)
     ntx.draw_networkx(G)
-    plotFromGraph.counter += 1
+    plt.show()

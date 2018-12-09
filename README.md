@@ -3,7 +3,7 @@
 > * Group Name: Operation Spectrum
 > * Group participants names: Hahn Thomas, Jäger Severin, Schubert Yannick
 > * Project Title: Modeling and Simulation Disease Outbreaks for Arbitrary Topological Systems
-> * Programming language: Python
+> * Programming language: Python 3
 
 ## General Introduction
 

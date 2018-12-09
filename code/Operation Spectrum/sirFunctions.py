@@ -35,7 +35,7 @@ def time_evolution(G, beta, delta, initial_size, start_time, end_time, iteration
         opt -- determines what is returned (default: 'Plot'):
             'Plot' -- a double logarithmic plot (using matplotlib) is created
             'number_of_cured_nodes' --
-        initial_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
+        critical_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
     """
 
     report_times = scipy.linspace(start_time, end_time, 1000)
@@ -67,7 +67,7 @@ def fig_5_left(G, initial_size, iterations, initial_nodes  = [], curves = 4, bet
             G -- a networkX graph object describing the system topology
             initial_size -- the initial size of the infected population
             iterations -- the number of independent simulations (the average value is returned)
-            initial_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
+            critical_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
             curves -- number of independent curves in the plot
             beta -- array of SIR beta values, same length as delta (default: [1, 1, 1, 1])
             delta -- array of SIR delta values, same length as beta (default: [0.15, 0.05, 0.02, 0.01])
@@ -98,7 +98,7 @@ def fig_5_right(G, initial_size, iterations, number_of_steps, initial_nodes = []
             initial_size -- the initial size of the infected population
             iterations -- the number of independent simulations (the average value is returned)
             number_of_steps -- number of different virus strenghts (along x-axis)
-            initial_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
+            critical_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
             parallel -- states whether parallelized for loops from joblib are used, potentially causing problems (default: False)
             show -- determines whether the plot is shown
     """
@@ -127,7 +127,7 @@ def fig_5_right_initial(G, initial_sizes, iterations, number_of_steps, initial_n
             initial_sizes -- list of initial sizes of infected population, each leading to curve in the plot
             iterations -- the number of independent simulations (the average value is returned)
             number_of_steps -- number of different virus strenghts (along x-axis)
-            initial_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
+            critical_nodes -- the indices of the initially infected nodes, randomly chosen if empty list (default: [])
             parallel -- states whether parallelized for loops from joblib are used, potentially causing problems (default: False)
             show -- determines whether the plot is shown
     """
