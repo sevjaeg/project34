@@ -14,7 +14,7 @@ def crucialNodesDegree(G, number_of_nodes = 1):
 
     d = ntx.degree_centrality(G)
     ret = []
-    for i in range(0, number_of_nodes-1):
+    for i in range(number_of_nodes):
         if d:
             index = max(d.items(), key=operator.itemgetter(1))[0]
             ret.append(index)
@@ -32,7 +32,7 @@ def crucialNodesEigenvector(G, number_of_nodes = 1):
 
     d = ntx.eigenvector_centrality(G)
     ret = []
-    for i in range(0, number_of_nodes - 1):
+    for i in range(number_of_nodes):
         if d:
             index = max(d.items(), key=operator.itemgetter(1))[0]
             ret.append(index)

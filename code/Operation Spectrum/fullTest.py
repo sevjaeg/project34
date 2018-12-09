@@ -32,6 +32,7 @@ initial_size = 10
 iterations = 200  # strongly affects computation effort (200 used for report)
 number_of_steps = 20
 
+print("Data set AS-OREGON")
 eig = obtainMaxEig(E)
 print(str(len(E.nodes)) + " nodes")
 print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
@@ -75,6 +76,7 @@ fig_5_left(E, initial_size, 10*iterations, initial_nodes=initial_nodes, beta=bet
 
 # Validation of the paper using a different graph ######################################################################
 
+print("Data set FACEBOOK-EGO")
 E = importEdgeListFile("data/facebook_ego.txt", ' ')
 
 eig = obtainMaxEig(E)
@@ -83,6 +85,7 @@ print("Largest Eigenvalue of the Adjacency Matrix = " + str(round(eig, 2)))
 
 initial_nodes = crucialNodesEigenvector(E, number_of_nodes=initial_size)
 print("Nodes with highest betweenness: " + str(initial_nodes))
+
 
 fig_5_right(E, initial_size, iterations, number_of_steps, show=False)
 fig_5_right(E, initial_size, iterations, number_of_steps, initial_nodes=initial_nodes)
@@ -96,6 +99,7 @@ fig_5_right_initial(E, initial_sizes, iterations, number_of_steps, initial_nodes
 
 # Challenging the model using a small network ##########################################################################
 
+print("Data set TERRORISTS")
 E = importEdgeListFile('data/terrorist.txt', '\t')
 
 eig = obtainMaxEig(E)
