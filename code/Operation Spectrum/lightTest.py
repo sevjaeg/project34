@@ -27,10 +27,10 @@ print("Data set TERRORISTS")
 print(str(len(G.nodes)) + " nodes")
 print("Largest eigenvalue: " + str(round(obtainMaxEig(G), 2)))
 
-plotFromGraph(G)
-
 critical_nodes = crucialNodesEigenvector(G, number_of_nodes=3)  # Finding the most important nodes in the network
 print("Critical nodes: " + str(critical_nodes))
+
+plotFromGraph(G)
 
 print("\n"
       "Removing critical nodes")
@@ -40,15 +40,12 @@ for node in critical_nodes:
 print("Largest eigenvalue: " + str(round(obtainMaxEig(G), 2)))
 print("Immunization of critical nodes dramatically reduces the largest eigenvalue")
 
-print("\n"
-      "Plot: Network without critical nodes")
-plotFromGraph(G)
 
 print("\n"
       "Our model suggests that the largest eigenvalue of the adjacency matrix and a constant belonging to the virus "
       "propagation model"
       "\n"
-      "(their combination is called effective strength) "
+      "(their product is called effective strength) "
       "determine whether a disease leads to an epidemic or not."
       "\n")
 
