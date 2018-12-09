@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}              
 %\geometry{letterpaper}   
-\geometry{a4paper,left=20mm,right=20mm, top=25mm, bottom=30mm} 
+\geometry{a4paper,left=20mm,right=20mm, top=25mm, bottom=28mm} 
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
@@ -91,32 +91,33 @@ This paper discusses a very powerful model that classifies the spread of infecti
 \newpage
 \section{Individual contributions}
 Thomas Hahn mainly focuses on the theory behind the model. This includes understanding when the model can potentially fail and why it works otherwise.  Yannick Schubert and Severin Jäger implement the theory and verify results by simulating the time evolution of the SIR model and comparing outcomes.  In addition, they analyze what happens when certain important nodes are infected.
-\section{Introduction and Motivations}
-The social sciences have long tried to predict the time evolution propagation of viruses, ideas, etc.  Obviously, a deep understanding of how and why diseases spread would allow us to better come up with prevention measures.  Their first attempt was to parametrize the disease and analyze the spreading during short time-steps.  The topology of the system, i.e. a structure that describes the connection of any all players (or lack thereof), was completely ignored.  It was just assumed that everyone knew everyone.  More recently, experts in this field have managed to not only create a theory that includes both aspects, but also achieve a decoupling.  This, of course, is by no means trivial.
 
-We will base our work on the paper 'Threshold Conditions for Arbitrary Cascade Models on Arbitrary Networks" from 2012 \cite{original_paper}. They claim to be the first ones to de-couple the virus propagation model form the topology of the network. There, they define a virus strength as the product of the largest eigenvalue of the connectivity matrix and a constant, which only depends on the virus propagation model.
+\section{Introduction and Motivations}
+The social sciences have long tried to predict the time evolution propagation of viruses, ideas, etc.  Obviously, a deep understanding of how and why diseases spread would allow us to better come up with prevention measures.  Their first attempt was to parametrize the disease and analyze the spreading during short time-steps.  The topology of the system, i.e. the structure that describes the connection between all players (or lack thereof), was completely ignored.  It was just assumed that everyone knew everyone.  More recently, experts in this field have managed to not only create a theory that includes both aspects, but also achieves a decoupling.  This, of course, is by no means trivial.
+
+We will base our work on the paper 'Threshold Conditions for Arbitrary Cascade Models on Arbitrary Networks" from 2012 \cite{original_paper}. They claim to be the first ones to decouple the virus propagation model from the topology of the network. There, they define a virus strength as the product of the largest eigenvalue of the connectivity matrix and a constant, which only depends on the virus propagation model.
 
 The G2-Threshold Theorem, which is formulated and proven in the paper, states that there exists a threshold for the effective strength below which a virus dies out quickly. For many “what-if”-scenarios this is already the necessary information. Since there exist very fast algorithms for computing the largest eigenvalue of a matrix, this information can be obtained quickly for an arbitrary virus propagation model and an arbitrary topology.
 
-In this paper, we will investigate whether the G2-Theorem still applies for different initial conditions. Thereto, we will vary the number of initially infected nodes in a network and infect its most important nodes. Additionally, we will figure out, whether virus propagation in very small networks can still be analyzed with this theorem.
+In this paper, we will investigate whether the G2-Theorem still applies for different initial conditions. Thereto, we will vary the number of initially infected nodes in a network and infect its most important nodes. Additionally, we will figure out, whether virus propagation in very small networks can still be adequately analyzed with this theorem.
 
 \newpage
 
 \section{Description and Proof of the G2-Threshold Theorem} \label{theorem}
-For any given epidemiological model, there are two key components that will describe our system; namely the virus propagation model and the topological constraints of the system.  It will be shown that these two components can in fact be de-coupled and described by two constants.  To fully describe arbitrary systems, some definitions must be introduced. \\
+For any given epidemiological model, there are two key components that will describe our system; namely the virus propagation model and the topological constraints of the system.  It will be shown that these two components can in fact be decoupled and described by two constants.  To fully describe arbitrary systems, some definitions must be introduced. \\
 \underline{Definition:}\\
 The connectivity matrix is a symmetric $n \times n$ matrix, where $n$ is the number of nodes in the system.  If two nodes, $i$ and $j$, are connected, the $(i,j)^{th}$ entry is equal to $1$.  Otherwise it is equal to $0$.  In addition, all diagonal entries are automatically set to $0$.\\
-Throughout this paper, the connectivity matrix will fully describe the interaction between two different people.  In later chapters, we may allow values ranging from $0$ to $1$, to  better describe the relationship of any two given nodes.  \\
+Throughout this paper, the connectivity matrix will fully describe the interaction between two different people.   \\
 To mathematically characterize any given virus propagation model (VPM), the following parameters are needed. \\
 \underline{Parameters:}\\
 $(i)$ $\beta$ is the attack or transmission probability via a link between two nodes \\
-$(ii)$ $\gamma$ is the immunization loss probability after a node has recovered \\
+$(ii)$ $\gamma$ is the immunization loss probability after a nodes has recovered \\
 $(iii)$ $\delta$ is the healing probability once a node has been infected \\
 $(iv)$ $\epsilon$ is the virus maturation probability after a node has been exposed.  This therefore means that $1-\epsilon$ defines the virus incubation probability \\
 $(v)$ $\theta$ is the direct immunization probability whilst a node is susceptible to the virus \\
 We now have the tools to prove the theorem, which not only allows us to decouple the topology from the VPM, but also determines whether or not viruses exceed the epidemic threshold. \\
 \subsection{G2-Threshold Theorem}
-For any given VPM that can be thought of as a $S^* I^2 V^*$ model (there are two infectious states, but not conditions for the number of susceptible and vigilant states), which operates on an arbitrary topology, the virus will be eradicated quickly if 
+For any given VPM that can be thought of as a $S^* I^2 V^*$ model (there are two infectious states, but no constraints on the number of susceptible and vigilant states), which operates on an arbitrary topology, the virus will be eradicated quickly if 
  \begin{eqnarray}
  s < 1
  \end{eqnarray}
@@ -130,7 +131,7 @@ For any given VPM that can be thought of as a $S^* I^2 V^*$ model (there are two
  We shall start by first giving a broad overview of why the G2-Threshold Theorem makes sense and in the following subsection we shall go into more detail.  \\
  \underline{Terminology:}\\
  In the general $S^* I^2 V^*$ model, we have the following three classes:\\
-$(i)$ Susceptible Class:  Elements of this state can be infected by neighboring elements; i.e. the $i^{th}$ node can be infected by the $j^{th}$ node if $A_{i,j}=1$.  We can have $n \geq 0$ arbitrary susceptible states.  In addition, nodes can only enter this class via endogenous transitions from the to two other classes.  This means that these transitions do not depend on neighboring elements. Transitions within this class are also endogenous.\\
+$(i)$ Susceptible Class:  Elements of this state can be infected by neighboring elements; i.e. the $i^{th}$ node can be infected by the $j^{th}$ node if $A_{i,j}=1$.  We can have $n \geq 0$ arbitrary susceptible states.  In addition, nodes can only enter this class via endogenous transitions from the two other classes.  This means that these transitions do not depend on neighboring elements. Transitions within this class are also endogenous.\\
 $(ii)$ Infected Class: Elements in one of the two possible infected classes can spread the infection to susceptible neighbors with a certain probability.  For those wondering why we have two classes instead of one, we need only give the following example.  If infectious state I has a transmissibility parameter $\beta_I>0$  and infectious state E with  $\beta_E=0$, we can elegantly describe scenarios where the disease need not always be contagious.  Elements can enter this class via exogenous transitions (neighbor-dependent) from susceptible states.  Transitions within this class are endogenous.  \\
 $(iii)$ Vigilant Class:  Elements of these states can neither infect, nor be infected.  This class can be used to describe dead, vaccinated, and/or recovered nodes (only in models, where recovered patients are no longer susceptible).  Once again, there can be $m \geq 0$ possible states in this class.  Elements can enter this class via endogenous transitions from all other states. 
 Transitions within this class are also endogenous. \\
@@ -140,7 +141,7 @@ We will be making two assumptions, which not only simplify calculations, but are
 $(i)$ The infection can only be spread from node $i$ to node $j$ if $A_{i,j}=1$. In essence, this means that the infection can only be spread via neighbors. \\
 $(ii)$ When an element from a susceptible state becomes infected, it must always transition into the "first" susceptible state $I_1$.  This is trivially fulfilled for models with one infectious state.  Models with two susceptible states could then describe infections that first need an incubation period.  In this case $I_1$ would be the state "E" that was mentioned before.  \\
 \underline{Proof Sketch:}\\
-We start by defining a vector $\textbf{P}_t$ that will describe the system at time $t$.  In a model where $m$ is the total number of states and $n$ is the total number of nodes, this vector will have $m \times n$ entries, i.e. $\bold{P}_t \in \mathbb{R}^{m \cdot n} $. More specifically, we can write $\bold{P}_t$ in the following way: \\
+We start by defining a vector $\textbf{P}_t$ that will describe the system at time $t$.  In a model where $m$ is the total number of states and $n$ is the total number of nodes, this vector will have $m \cdot n$ entries, i.e. $\bold{P}_t \in \mathbb{R}^{m \cdot n} $. More specifically, we can write $\bold{P}_t$ in the following way: \\
 \begin{eqnarray}
  \bold{P}_t = (P_{s_1,1,t},P_{s_1,2,t},...,P_{s_1,n,t},P_{s_2,1,t},...,P_{s_m,n,t})^T ,
  \end{eqnarray}
@@ -211,7 +212,7 @@ We will now need a theorem, which will not be proven (e.g. see \cite{Stability})
   \mathcal{J}_{i,j} = \left[ \nabla g(\bold{x}) \right]_{i,j} = \frac{\partial g_i}{\partial x_j}|_\bold{x}
   \end{eqnarray}
   \subsubsection{A More Thorough Analysis of Fixed Points}
-  We are only interested in fixed points, where none of the nodes are infected.  If that is the case, the only possible transitions will be from endogenous transitions within and between the Susceptible and Vigilant class.  This means that now the topology plays no role whatsoever in determining our preferred fixed point, which allows us to use the Markov Chain model. Using this method, we will attain a unique steady state probability for each node (same for each one). The steady state vector $\pi^\star$, whose entries will contain the probability that any node is found in an arbitrary state (In either the Susceptible or Vigilant class).  It therefore is a vector with $q$ entries, where $q$ is the number of states in the Susceptible and Vigilant class.  We then know from Markov chain analysis that 
+  We are only interested in fixed points, where none of the nodes are infected.  If that is the case, the only possible transitions will be from endogenous transitions within and between the Susceptible and Vigilant class.  This means that now the topology plays no role whatsoever in determining our preferred fixed point, which allows us to use the Markov Chain model. Using this method, we will attain a unique steady state probability for each node (same for each one). The steady state vector $\pi^\star$, whose entries will contain the probability that any node is found in an arbitrary state (In either the Susceptible or Vigilant class), is therefore a vector with $q$ entries, where $q$ is the number of states in the Susceptible and Vigilant class.  We then know from Markov chain analysis that 
   \begin{eqnarray}
   \pi^{\star T} \text{Trans}_{MC_{SV}} =   \pi^{\star} ,
   \end{eqnarray}
@@ -219,7 +220,7 @@ We will now need a theorem, which will not be proven (e.g. see \cite{Stability})
   \begin{eqnarray}
   \sum_{i=1}^q \pi^{\star} = 1.
   \end{eqnarray}
-  Here, $\text{Trans}_{MC_{SV}}$ denotes the stochastic matrix of the Markov chain $MC_{SV}$.  To create a probability vector for an arbitrary node $i$ with has entries for all states, including the Infected states, we just add two $0$ entries to $ \pi^{\star}$.  We  shall call this new vector $p^\star$.  To finally attain the fixed point that describes all nodes, we define $\bold{x}$ to be 
+  Here, $\text{Trans}_{MC_{SV}}$ denotes the stochastic matrix of the Markov chain $MC_{SV}$.  To create a probability vector for an arbitrary node $i$ which has entries for all states, including the Infected states, we just add two $0$ entries to $ \pi^{\star}$.  We  shall call this new vector $p^\star$.  To finally attain the fixed point that describes all nodes, we define $\bold{x}$ to be 
   \begin{eqnarray}
   \bold{x} = \left( p^\star,  p^\star, ..., p^\star \right)^T ,
   \end{eqnarray}
@@ -247,7 +248,7 @@ This can be interpreted as the probability of any given node $i$ being in the Su
      I & $\alpha_{S_yI}\mathbbm{1}$ & $\alpha_{KI}\mathbbm{1}$ & $\cdots$ & $\alpha_{EI}\mathbbm{1}$ & $\alpha_{II}\mathbbm{1}$
 \end{tabular}\\
 \captionsetup{width = 0.8\textwidth}
-     \caption{Denotes the Components of The Jacobian. The first row and columns represent the states}
+     \caption{Denotes the Components of The Jacobian. The first row and column represent the states}
      \label{tab: Jacobian 1}
  \end{table}
 
@@ -285,7 +286,7 @@ As we can see in Table $2$, the Jacobian is of the form
   \mathcal{J}=
   \left( {\begin{array}{cc}
   \bold{B}_1 & \bold{B}_2 \\
-   \bold{0} & \bold{B}_1 \\
+   \bold{0} & \bold{B}_3 \\
   \end{array} } \right)
  \end{eqnarray}
  where $\bold{B}_1$ is a $((m-2) \cdot n) \times ((m-2)\cdot n)$ matrix, $\bold{B}_2$ is a $((m-2)\cdot n) \times (2\cdot n)$ matrix, and $\bold{B}_3$ is a $(2 \cdot n) \times (2\cdot n)$ matrix.  Any eigenvector $\bold{v}$ with eigenvalue $\lambda_ \mathcal{J}$ can now be thought of a composition of two smaller vectors, $\bold{v}_1$ and $\bold{v}_2$, such that 
@@ -296,7 +297,7 @@ Since   $\bold{v}$ is an eigenvector, we know that
  \begin{eqnarray}
   \left( {\begin{array}{cc}
   \bold{B}_1 & \bold{B}_2 \\
-   \bold{0} & \bold{B}_1 \\
+   \bold{0} & \bold{B}_3 \\
   \end{array} } \right)
   \left( {\begin{array}{c} 
     \bold{v}_1 \\
@@ -316,7 +317,7 @@ Since   $\bold{v}$ is an eigenvector, we know that
   $(ii)$ $ \bold{v}_2$ can be thought of as an eigenvector of $\bold{B}_3$ with eigenvalue $\lambda_ \mathcal{J}$ \\
 We shall now examine both cases.
 \subsubsection{Case (i)}
-  Scenario $(i)$ simplifies equation (\ref{eq: 21}) considerably, as the second term is dropped and we left with 
+  Scenario $(i)$ simplifies equation (\ref{eq: 21}) considerably, as the second term is dropped and we are left with 
 \begin{eqnarray}
  \bold{B}_1   \bold{v}_1 = \lambda_ \mathcal{J}  \bold{v}_1 ,
 \end{eqnarray}
@@ -356,7 +357,7 @@ which then again again implies one of the following: \\
     \alpha_{EI} \mathbbm{1} &  \alpha_{II} \mathbbm{1}\\
   \end{array} } \right) .
   \end{eqnarray}
-  For pragmatic reasons, we shall split $\bold{v}_2$ into to components, $\bold{u}_1$ and $\bold{u}_2$, such that both are vectors of length $n$.  Since $\bold{v}_2$ is an eigenvector with eigenvalue $\lambda_ \mathcal{J}$, we know that the two components satisfy:
+  For pragmatic reasons, we shall split $\bold{v}_2$ into two components, $\bold{u}_1$ and $\bold{u}_2$, such that both are vectors of length $n$.  Since $\bold{v}_2$ is an eigenvector with eigenvalue $\lambda_ \mathcal{J}$, we know that the two components satisfy:
   \begin{eqnarray}
   \left(  \alpha_{EE} \mathbbm{1} + p_S^{\star} \beta_1 \bold{A} \right) \bold{u}_1 + \left( \alpha_{IE} \mathbbm{1} + p_S^{\star} \beta_2 \bold{A} \right)  \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_1 \label{eq: 28}\\ 
    \alpha_{E1} \bold{u}_1 +    \alpha_{II} \bold{u}_2 &=& \lambda_ \mathcal{J} \bold{u}_2 \label{eq: 29}
@@ -373,7 +374,7 @@ which then again again implies one of the following: \\
   \begin{eqnarray}
   \bold{A} \bold{u}_2 = \left( \frac{\lambda_ \mathcal{J}^2 - \left(\alpha_{II} + \alpha_{EE} \right)  \lambda_ \mathcal{J} + \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}}{p_S^{\star} \beta_1 \left(\lambda_ \mathcal{J} -\alpha_{II} \right) + p_S^{\star} \beta_2 \alpha_{EI}  } \right)  \bold{u}_2 \label{eq: 32}
   \end{eqnarray}
-  Since we know that $ \bold{u}_2  \neq 0$ (otherwise $ \bold{u}_1 =0$ and $ \bold{v} = 0$),  $ \bold{u}_2 $ is an eigenvector of the adjacency matrix. As we can see in (\ref{eq: 32}), the eigenvalue is dependent on many parameters.  To simplify matters, we shall call the eigenvalue $\lambda_{\bold{A}}$.  We can now replace $\bold{A}$ with its eigenvalue in equation (\ref{eq: 31}), so that it can be rewritten as:
+  Since we know that $ \bold{u}_2  \neq 0$ (otherwise $ \bold{u}_1 =0$ and $ \bold{v} = 0$),  $ \bold{u}_2 $ is an eigenvector of the connectivity matrix. As we can see in (\ref{eq: 32}), the eigenvalue is dependent on many parameters.  To simplify matters, we shall call the eigenvalue $\lambda_{\bold{A}}$.  We can now replace $\bold{A}$ with its eigenvalue in equation (\ref{eq: 31}), so that it can be rewritten as:
   \begin{eqnarray}
   \lambda_ \mathcal{J}^2  -\lambda_ \mathcal{J} \left(\alpha_{II} + \alpha_{EE} +p_S^{\star} \beta_1 \lambda_{\bold{A}} \right) + \left( \alpha_{II}  \alpha_{EE} - \alpha_{IE}  \alpha_{E1}
 +  p_S^{\star} \lambda_{\bold{A}} \left( \beta_1 \alpha_{II} - \beta_2 \alpha_{EI} \right) \right) =0 \label{eq: 33}
@@ -383,11 +384,11 @@ We've now found a quadratic equation that will give us two (possibly different) 
 The eigenvalues of $\mathcal{J}$ are either acquired via the matrix $\bold{T}$ or by solving the quadratic equation (\ref{eq: 33}), whose roots are dependent in the eigenvalues of $\bold{A}$.
 \subsubsection{Stability Requirements}
 The asymptotic stability theorem requires that all eigenvalues of $\mathcal{J}$ have an absolute value less than $1$.  We can now use the previous subsections to find out when this is true.  The previous lemma states that one of the following two conditions must hold: \\
-$(i)$ The eigenvalues of $\bold{T}$ must all have an absolute value less then $1$. \\
-$(ii)$ The solutions of the quadratic equation given by (\ref{eq: 33}) must all have an absolute value less than $1$(for all eigenvalues of $\bold{A}$). \\
-Let's first analyze scenario $(1)$.
+$(i)$ The eigenvalues of $\bold{T}$ must all have an absolute value less than $1$. \\
+$(ii)$ The solutions of the quadratic equation given by (\ref{eq: 33}) must all have an absolute value less than $1$ (for all eigenvalues of $\bold{A}$). \\
+Let's first analyze scenario $(i)$.
 \subsubsection{Case $(i)$}
-Now this is quite simple.  Since $\bold{T}$ is a stochastic matrix ( This means that summing over the values in each column will always return the value $1$), it can only have eigenvalues whose absolute value are less than $1$.  Our requirements are therefore automatically fulfilled.  It should be noted that $\bold{T}$ does not depend on $\bold{A}$.
+Now this is quite simple.  Since $\bold{T}$ is a stochastic matrix (This means that summing over the values in each column will always return the value $1$), it can only have eigenvalues whose absolute value are less than $1$.  Our requirements are therefore automatically fulfilled.  It should be noted that $\bold{T}$ does not depend on $\bold{A}$.
 \subsubsection{Case $(ii)$}
 In this case, we must find the conditions for which our eigenvalues have an absolute value less than $1$.  To do this, we will prove the following lemma: \\
  \underline{Lemma:}  \\
@@ -400,7 +401,7 @@ where $\lambda_1$ is the largest eigenvalue of $\bold{A}$. \\
  \underline{Proof:}  \\
  We define $r_1$ and $r_2$ to be the solutions of equation (\ref{eq: 33}) for a given $\lambda_{\bold{A}}$.  We obviously want that
  \begin{eqnarray}
- |r_1| < 1 \  \& \ |r_1| < 1 .
+ |r_1| < 1 \  \& \ |r_2| < 1 .
  \end{eqnarray}
  While both $r_1$ and $r_2$ can in general be complex numbers, let us first analyze the solutions, where both are real numbers.  In this case we know that $r_1 , r_2 \in \left( -1,1 \right)$.
 For a general quadratic equation $f(x)= ax^2 +bx+c$, where $a >0$, both solutions can lie in the desired interval if and only if the following conditions hold:
@@ -428,7 +429,7 @@ This should hold for all eigenvalues of $\bold{A}$.  Since $\bold{A}$ is a symme
 \end{eqnarray}
 These follow from the fact that all the parameters must be positive and less than or equal to $1$.  With these two inequalities, it should be clear that if (\ref{eq: 43}) holds, (\ref{eq: 42}) must hold as well.  We can thus conclude, that if the roots of the quadratic equation are real
 \begin{eqnarray}
- \lambda_{1}  p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) < 1 .
+ \lambda_{1}  p_S^{\star} \left( \frac{\beta_1 \left( 1-\alpha_{II} \right) + \beta_1 \alpha_{EI} }{\left( 1- \alpha_{II}\right) \left( 1- \alpha_{EE}\right)-\alpha_{IE}  \alpha_{E1}} \right) < 1 
 \end{eqnarray}
 must hold to attain values between $(-1,1)$.  On the other hand, if we allow for complex roots, we must allow the discriminant to be negative.  Since our quadratic equation has real coefficients, $r_1$ and $r_2$ must be the complex conjugate of one another.  This just means that $|r_1|=|r_2|= \sqrt{r_1 r_2}$.  It is also easy to show that the product of both roots is equal to $\frac{c}{a}$, where the quadratic equation is given by $ax^2+bx+c=0$.  This means that since we require all roots to have an absolute value of less than $1$, $c/a<1$.  This just means that the following inequality must hold:
 \begin{eqnarray}
@@ -452,16 +453,16 @@ Our aim is to reproduce the model as well as to push it towards its boundaries a
 During the course of this chapter, we will analyze the time evolution of the propagating virus.  To do this, we consider the fraction of infected people and the threshold condition for an outbreak of an epidemic in the SIR model shown in Figure 5. \\
 The SIR model states that individuals can either be susceptible for the disease (S), infected (I) or recovered (R). The only two possible events are the following: 
 \begin{enumerate}
-\item[(i)] An infected node infects a susceptible neighbour 
-\item[(ii)] An infected node gets recovered
+\item[$(i)$] An infected node infects a susceptible neighbour 
+\item[$(ii)$] An infected node gets recovered
 \end{enumerate}
 Hereinafter we will call the set of susceptible nodes that have at least one infected neighbor "at\_risk\_nodes". 
-The model is entirely described by the transmission probability over a contact-link $\beta$ and the healing probability once infected $\delta$. The parameter $\beta$ is defined such that the probability that (a) happens in the infinitesimal time interval $[t, t+dt)$ is given by $\beta dt$. Analogously the probability that an infected node at time $t$ gets healed (event (b)) within the time interval $[t,t+dt)$ is $\delta dt$. Therefore the probability that exactly one event happens in the time interval $[t,t+dt)$ is given by 
-\begin{align*}
+The model is entirely described by the transmission probability over a contact-link $\beta$ and the healing probability once infected $\delta$. The parameter $\beta$ is defined such that the probability that $(i)$ happens in the infinitesimal time interval $[t, t+dt)$ is given by $\beta dt$. Analogously the probability that an infected node at time $t$ gets healed (event $(ii)$) within the time interval $[t,t+dt)$ is $\delta dt$. Therefore the probability that exactly one event happens in the time interval $[t,t+dt)$ is given by 
+\begin{align}
 \text{total\_rate}\times dt &= (\text{total\_infection\_rate}+\text{total\_recovery\_rate}(t))\times dt\\
 \text{total\_infection\_rate} &= \sum\limits_{u\in \text{at\_risk\_nodes}}\beta\times\text{number\_of\_infected\_neighbours}[u]\\
 \text{total\_recovery\_rate}(t)&=\delta\times\text{number\_of\_infected\_nodes}
-\end{align*}
+\end{align}
 To solve this problem numerically we have to discretize the time and therefore replace $dt$ with a finite time step $\Delta t$. The smaller $\Delta t$ is chosen, the more accurate the algorithm describes the model. \\
 We first want to describe a naive algorithm that could simulate the disease outbreak with the SIR model. Assuming we know the state of all nodes at time $t$, we can simulate the states of the next time step $t+\Delta t$ with the following algorithm: 
 \begin{enumerate}
@@ -477,22 +478,22 @@ $\frac{\beta\times\text{number\_of\_infected\_neighbours}[u]}{\text{total\_infec
 \item[(b)] Else: No event occurs in this time interval and we start again with 1. for the time $t+\Delta t$
 \end{itemize}
 \end{enumerate} 
-Since $r_1$ is a random number uniformly distributed in $(0,1)$, the probability that $r_2<\text{total\_recovery\_rate}\times\Delta t$ is equal to $\text{total\_recovery\_rate}\times\Delta t$. So for infinitely small $\Delta t$, 2 (a) would exactly simulate the probability that an event will happen in the time step $t+\Delta t$. If an event happens in the considered time interval, the next  question is which event that is. The probability that a node recovers during this time-step is given by the probability that $\text{total\_recovery\_rate} <r_2$. In the remaining cases this event will be a transmission of the disease. The probability that a at\_risk\_node gets infected is simply proportional to its number of infected neighbors. \\
-The problem with this algorithm is that by decreasing $\Delta t$ (and therefor increasing the accuracy), the computational intensity increases. During most of the time steps, the generated random number $r_1$ is created, even though no event took place.\\
-The Gillespie follows a different approach: Instead of analyzing each time step, it calculates the time $t+\tau$ at which the next event occurs. It is a model that was developed in the middle of the $20^{th}$ century and was mainly used to efficiently simulate chemical or biochemical reactions \cite{wiki:Gillespie}. Instead of explaining the general algorithm, we want to focus on how it can be used to simulate the SIR model. Our paper will closely follow the work done in \cite{paper_gillespie}, where it's shown how the Gillespie algorithm can be used to describe chemical reactions.
+Since $r_1$ is a random number uniformly distributed in $(0,1)$, the probability that $r_1<\text{total\_recovery\_rate}\times\Delta t$ is equal to $\text{total\_recovery\_rate}\times\Delta t$. So for infinitely small $\Delta t$, 2 (a) would exactly simulate the probability that an event will happen in the time step $t+\Delta t$. If an event happens in the considered time interval, the next  question is which event that is. The probability that a node recovers during this time-step is given by the probability that $\text{total\_recovery\_rate} <r_2$. In the remaining cases this event will be a transmission of the disease. The probability that a at\_risk\_node gets infected is simply proportional to its number of infected neighbors. \\
+The problem with this algorithm is that by decreasing $\Delta t$ (and therefore increasing the accuracy), the computational intensity increases. During most of the time steps, the generated random number $r_1$ is created, even though no event took place.\\
+The Gillespie follows a different approach: Instead of analyzing each time step, it calculates the time $t+\tau$ at which the next event occurs. It is a model that was developed in the middle of the $20^{th}$ century and was mainly used to efficiently simulate chemical or biochemical reactions \cite{wiki:Gillespie}. Instead of explaining the general algorithm, we want to focus on how it can be used to simulate the SIR model. Our paper will closely follow the work done in \cite{paper_gillespie}, where it is shown how the Gillespie algorithm can be used to describe chemical reactions.
 \\
 We shall define $f(\text{total\_rate}(t), s)ds$ as the probability that for a given $\text{total\_rate}$ at time $t$, the next event will happen during the time interval $[t+s,d+s+ds)$ and $g(\text{total\_rate}(t),s)ds$ as the probability, that no event happens in the time interval $[t,t+s)$. \\
 The probability that for a given time $t$ the next event will happen during the time interval $[t+s,d+s+ds)$ can now be written as the product of the probabilities, that no event happens in the time interval $[t,t+s)$ and the probability that exactly one event happens in the time interval $[t+s,t+s+ds)$: $f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t+s)ds$. Since no event happens in $[t,t+s)$ we know that $\text{total\_rate}(t+s)=\text{total\_rate}(t)$. Therefore: 
 \begin{align}
 f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t)ds \label{f}
 \end{align}
-Now we want to calculate $g(\text{total\_rate}(t), \sigma )$ for all $\sigma>0$. For an infinitesimal time step $d\sigma$ the probability that no event occurs in the time interval $[t,t+\sigma+d\sigma)$  is given by: $g(\text{total\_rate}(t), \sigma+d\sigma)=g(\text{total\_rate}(t), \sigma)[1-\text{total\_rate}(t+\sigma)]d\sigma$. Here we have used the fact that $d\sigma$ is infinitesimally small and therefore the probability that more than one event happens in the time interval $[t+\sigma, t+\sigma+d\sigma)$ is negligible. In this expression we can replace $\text{total\_rate}(t+\sigma)$ with $\text{total\_rate}(t)$, since no event took place in the the time interval $[t,t+\sigma)$. This leads to the following differential equation for $g(\text{total\_rate}(t), \sigma)$: \begin{align*}
-\frac{dg(\text{total\_rate}(t), \sigma)}{d\sigma} &= \lim\limits_{d\sigma\to0}\frac{g(\text{total\_rate}(t),\sigma+d\sigma)-g(\text{total\_rate}(t),\sigma)}{d\sigma}\\
+Now we want to calculate $g(\text{total\_rate}(t), \sigma )$ for all $\sigma>0$. For an infinitesimal time step $d\sigma$ the probability that no event occurs in the time interval $[t,t+\sigma+d\sigma)$  is given by: $g(\text{total\_rate}(t), \sigma+d\sigma)=g(\text{total\_rate}(t), \sigma)[1-\text{total\_rate}(t+\sigma)]d\sigma$. Here we have used the fact that $d\sigma$ is infinitesimally small and therefore the probability that more than one event happens in the time interval $[t+\sigma, t+\sigma+d\sigma)$ is negligible. In this expression we can replace $\text{total\_rate}(t+\sigma)$ with $\text{total\_rate}(t)$, since no event took place in the the time interval $[t,t+\sigma)$. This leads to the following differential equation for $g(\text{total\_rate}(t), \sigma)$: \begin{align}
+\frac{dg(\text{total\_rate}(t), \sigma)}{d\sigma} &= \lim\limits_{d\sigma\to0}\frac{g(\text{total\_rate}(t),\sigma+d\sigma)-g(\text{total\_rate}(t),\sigma)}{d\sigma}\notag\\
 &=-\text{total\_rate}(t)\times g(\text{total\_rate}(t),\sigma)
-\end{align*}
+\end{align}
 With the initial condition that $g(\text{total\_rate}(t), 0)=1$, we obtain the unique solution $g(\text{total\_rate}(t), \sigma)=\exp[-\text{total\_rate}(t)\times\sigma]$. From this we know that \\
-$f(\text{total\_rate}(t), s)ds = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$, such that the next event happens at the time $t+\tau$, is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
-A Pseudocode for the Gillespie algorithm, which can be used to with the SIR model, is shown in figure \ref{figure: Gillespie-pseudo}.\\
+$f(\text{total\_rate}(t), s)ds\overset{(\ref{f})} = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)ds$. Therefore the time $\tau$, such that the next event happens at the time $t+\tau$, is exponentially distributed according to the probability distribution $f(\lambda, x)=\lambda\exp[-\lambda x]$ where $\lambda = \text{total\_rate}(t)$. \\
+A Pseudocode for the Gillespie algorithm, which can be used to simulate disease outbreaks with the SIR model, is shown in figure \ref{figure: Gillespie-pseudo}.\\
 
 \begin{figure} [H]
 \centering
@@ -520,15 +521,15 @@ The vector of the eigenvector centralities $x$ of all nodes in a network is defi
 \begin{equation}
 \bold{A}x=\lambda x
 \end{equation}
-where $\mathbf{A}$ denotes the networks’ adjacency matrix and $\lambda$ denotes the largest eigenvalue of $\mathbf{A}$, which is real and positive by the Perron-Frobenius theorem. Hence, $x$ is the eigenvector belonging to the spectral radius of $\mathbf{A}$. \cite{wiki:centrality}
+where $\mathbf{A}$ denotes the networks’ connectivity matrix and $\lambda$ denotes the largest eigenvalue of $\mathbf{A}$, which is real and positive by the Perron-Frobenius theorem. Hence, $x$ is the eigenvector belonging to the spectral radius of $\mathbf{A}$. \cite{wiki:centrality}
 \subsection{Implementation}
-To simulate the infections, we used an implementation of the Gillespie algorithm from \cite{Code-Gillespie}, as well as Python functions, which enable us to plot the time behaviour of the infection. In addition we computed the footprint of the infection as a function of the effective strength. Our Code uses the libraries scipy, matplotlib, networkX, and EoN.
+To simulate the infections, we modified an implementation of the Gillespie algorithm from \cite{Code-Gillespie}, as well as Python functions, which enabled us to plot the time behaviour of the infection. In addition we computed the final number of cured nodes (footprint) as a function of the effective strength. Our Code uses the libraries scipy, matplotlib, networkX, and EoN.
 \subsubsection*{Data sets}
 For the experiments described in the following section, we use the following data sets.
 \begin{enumerate}
-\item[(i)] AS-OREGON: Internet connection data from January 2, 2000 collected by University of Oregon Route Views Project \cite{as-oregon}. $6474$ nodes, $13895$ edges, spectral radius $46.9$.
-\item[(ii)] FACEBOOK-EGO: Data from a survey on Facebook app usage \cite{facebook-ego}. $4039$ nodes, $88234$ edges, spectral radius $162.4$.
-\item[(iii)] TERRORIST: Social associations between the terrorists involved in the 9/11 attacks \cite{terrorists}. $62$ nodes, $304$ edges, spectral radius $8.7$.
+\item[$(i)$] AS-OREGON: Internet connection data from January 2, 2000 collected by University of Oregon Route Views Project \cite{as-oregon}. $6474$ nodes, $13895$ edges, spectral radius $46.9$.
+\item[$(ii)$] FACEBOOK-EGO: Data from a survey on Facebook app usage \cite{facebook-ego}. $4039$ nodes, $88234$ edges, spectral radius $162.4$.
+\item[$(iii)$] TERRORIST: Social associations between the terrorists involved in the 9/11 attacks \cite{terrorists}. $62$ nodes, $304$ edges, spectral radius $8.7$.
 \end{enumerate}
 \subsection{Simulation Results and Discussion}
 For our experiments, we conducted computer simulations using Python 3.7. To create meaningful plots, we ran at least $200$ independent simulations per figure and plotted their arithmetic mean.
@@ -621,4 +622,3 @@ Nevertheless, the G2-threshold theorem has shown to be very robust and reliable 
 
 
 \end{document}
- 
