@@ -482,8 +482,8 @@ Since $r_1$ is a random number uniformly distributed in $(0,1)$, the probability
 The problem with this algorithm is that by decreasing $\Delta t$ (and therefore increasing the accuracy), the computational intensity increases. During most of the time steps, the generated random number $r_1$ is created, even though no event took place.\\
 The Gillespie follows a different approach: Instead of analyzing each time step, it calculates the time $t+\tau$ at which the next event occurs. It is a model that was developed in the middle of the $20^{th}$ century and was mainly used to efficiently simulate chemical or biochemical reactions \cite{wiki:Gillespie}. Instead of explaining the general algorithm, we want to focus on how it can be used to simulate the SIR model. Our paper will closely follow the work done in \cite{paper_gillespie}, where it is shown how the Gillespie algorithm can be used to describe chemical reactions.
 \\
-We shall define $f(\text{total\_rate}(t), s)ds$ as the probability that for a given $\text{total\_rate}$ at time $t$, the next event will happen during the time interval $[t+s,d+s+ds)$ and $g(\text{total\_rate}(t),s)ds$ as the probability, that no event happens in the time interval $[t,t+s)$. \\
-The probability that for a given time $t$ the next event will happen during the time interval $[t+s,d+s+ds)$ can now be written as the product of the probabilities, that no event happens in the time interval $[t,t+s)$ and the probability that exactly one event happens in the time interval $[t+s,t+s+ds)$: $f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t+s)ds$. Since no event happens in $[t,t+s)$ we know that $\text{total\_rate}(t+s)=\text{total\_rate}(t)$. Therefore: 
+We shall define $f(\text{total\_rate}(t), s)ds$ as the probability that for a given $\text{total\_rate}$ at time $t$, the next event will happen during the time interval $[t+s,t+s+ds)$ and $g(\text{total\_rate}(t),s)$ as the probability, that no event happens in the time interval $[t,t+s)$. \\
+The probability that for a given time $t$ the next event will happen during the time interval $[t+s,t+s+ds)$ can now be written as the product of the probabilities, that no event happens in the time interval $[t,t+s)$ and the probability that exactly one event happens in the time interval $[t+s,t+s+ds)$: $f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t+s)ds$. Since no event happens in $[t,t+s)$ we know that $\text{total\_rate}(t+s)=\text{total\_rate}(t)$. Therefore: 
 \begin{align}
 f(\text{total\_rate}(t), s)ds = g(\text{total\_rate}(t), s)\times\text{total\_rate}(t)ds \label{f}
 \end{align}
@@ -505,7 +505,7 @@ A Pseudocode for the Gillespie algorithm, which can be used to simulate disease 
 Assuming all states of the system are known for a time $t_0$, the algorithm perform the following steps:  
 \begin{enumerate}
 \item Compute all rates
-\item Compute the time $t+\tau$ at which the next event will happen. Therefore the random number $\tau$ exponentially distributed according to $f(s) = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)$ is generated
+\item Compute the time $t+\tau$ at which the next event will happen. For this purpose the random number $\tau$ exponentially distributed according to $f(s) = \exp[-\text{total\_rate}(t)s]\times\text{total\_rate}(t)$ is generated
 \item  Compute which event will happen
 \begin{itemize}
 \item[(i)] If $\text{total\_recovery\_rate} < r_2$: choose a random infected node $u$, set its state to "recovered" and reduce the number\_of\_infected\_neighbors[$\nu$] for every neighbor $\nu$ of $u$ by 1
